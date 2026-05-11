@@ -1,0 +1,15 @@
+<form (ngSubmit)="onSubmit()" class="flex gap-2 mb-5">
+  <input
+    type="text"
+    [(ngModel)]="newTitle"
+    name="title"
+    placeholder="Ajouter une tâche..."
+    class="flex-1 bg-white/10 border border-white/20 text-white placeholder-white/30 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-indigo-400 focus:bg-white/15 transition"
+  />
+  <button
+    type="submit"
+    class="px-5 py-3 bg-indigo-500 hover:bg-indigo-400 text-white text-sm font-bold rounded-xl shadow-lg shadow-indigo-500/30 transition cursor-pointer"
+  >
+    + Ajouter
+  </button>
+</form>

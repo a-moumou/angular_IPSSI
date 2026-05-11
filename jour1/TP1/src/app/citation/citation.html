@@ -1,0 +1,11 @@
+<div class="mt-6 bg-white/10 border border-white/20 rounded-2xl px-8 py-6 text-center text-white max-w-md w-full mx-auto">
+  <p class="text-lg italic text-white/90 mb-3">" {{ citation.texte }} "</p>
+  <p class="text-blue-300 font-semibold text-sm tracking-wide">— {{ citation.auteur }}</p>
+
+  <button
+    (click)="changer()"
+    class="mt-5 px-6 py-2 bg-white/15 hover:bg-white/25 border border-white/30 text-white text-sm font-medium rounded-full transition-all duration-200 cursor-pointer"
+  >
+    Changer la citation
+  </button>
+</div>

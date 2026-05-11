@@ -1,0 +1,59 @@
+<div class="min-h-screen bg-gradient-to-br from-violet-950 via-indigo-900 to-blue-900 flex items-start justify-center px-4 py-16">
+  <div class="w-full max-w-lg">
+
+    <!-- Header -->
+    <div class="text-center mb-10">
+      <h1 class="text-5xl font-black text-white tracking-tight mb-2">Ma TodoList</h1>
+      <p class="text-indigo-300 text-sm">Organise ta journée, une tâche à la fois.</p>
+    </div>
+
+    <!-- Card principale -->
+    <div class="bg-white/10 backdrop-blur-md border border-white/20 rounded-3xl p-6 shadow-2xl">
+
+      <app-task-form (add)="onAdd($event)" />
+
+      <!-- Filtres -->
+      <div class="flex gap-2 mb-5">
+        @for (btn of filters; track btn.value) {
+          <button
+            (click)="setFilter(btn.value)"
+            [class]="(filter$ | async) === btn.value
+              ? 'flex-1 py-2 text-xs font-bold rounded-xl bg-indigo-500 text-white shadow-lg shadow-indigo-500/30 transition-all cursor-pointer'
+              : 'flex-1 py-2 text-xs font-semibold rounded-xl bg-white/10 text-white/60 hover:bg-white/20 hover:text-white transition-all cursor-pointer'"
+          >
+            {{ btn.label }}
+          </button>
+        }
+      </div>
+
+      <!-- Liste -->
+      @if (filteredTasks$ | async; as tasks) {
+        @if (tasks.length === 0) {
+          <div class="text-center py-12 text-white/40">
+            <p class="text-4xl mb-3">🎉</p>
+            <p class="text-sm">Aucune tâche ici !</p>
+          </div>
+        } @else {
+          <ul class="space-y-4">
+            @for (task of tasks; track task.id) {
+              <app-task-item
+                [task]="task"
+                (toggle)="onToggle($event)"
+                (delete)="onDelete($event)"
+              />
+            }
+          </ul>
+        }
+      }
+
+    </div>
+
+    <!-- Compteur -->
+    @if (filteredTasks$ | async; as tasks) {
+      <p class="text-center text-white/30 text-xs mt-4">
+        {{ tasks.length }} tâche{{ tasks.length > 1 ? 's' : '' }}
+      </p>
+    }
+
+  </div>
+</div>

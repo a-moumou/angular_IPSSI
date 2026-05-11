@@ -1,0 +1,33 @@
+<li [class]="task.done
+    ? 'flex items-center gap-3 px-4 py-3 rounded-2xl border transition-all mb-4 bg-white/5 border-white/5'
+    : 'flex items-center gap-3 px-4 py-3 rounded-2xl border transition-all mb-4 bg-white/10 border-white/15 hover:bg-white/15'">
+
+  <button
+    (click)="toggle.emit(task.id)"
+    [class]="task.done
+      ? 'w-5 h-5 rounded-full border-2 flex items-center justify-center shrink-0 transition-all cursor-pointer bg-indigo-500 border-indigo-500'
+      : 'w-5 h-5 rounded-full border-2 flex items-center justify-center shrink-0 transition-all cursor-pointer border-white/30 hover:border-indigo-400'"
+  >
+    @if (task.done) {
+      <svg class="w-3 h-3 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="3">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
+      </svg>
+    }
+  </button>
+
+  <span [class]="task.done
+    ? 'flex-1 text-sm transition-all line-through text-white/30'
+    : 'flex-1 text-sm transition-all text-white'">
+    {{ task.title }}
+  </span>
+
+  <small class="text-white/20 text-xs shrink-0">{{ task.createdAt | date:'HH:mm' }}</small>
+
+  <button
+    (click)="delete.emit(task.id)"
+    class="w-6 h-6 rounded-lg flex items-center justify-center text-white/20 hover:text-red-400 hover:bg-red-400/10 transition cursor-pointer text-xs shrink-0"
+  >
+    ✕
+  </button>
+
+</li>
