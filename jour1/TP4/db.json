@@ -1,0 +1,11 @@
+{
+  "contacts": [
+    {
+      "nom": "salm",
+      "email": "cv@cv.frrr",
+      "tel": "065666578687",
+      "id": "fCpm3vkOdW4"
+    }
+  ],
+  "$schema": "./node_modules/json-server/schema.json"
+}

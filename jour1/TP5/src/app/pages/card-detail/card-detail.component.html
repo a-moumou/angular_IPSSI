@@ -1,0 +1,193 @@
+<div class="min-h-screen star-bg">
+
+  <!-- ══ NAV ══════════════════════════════════════════════════ -->
+  <nav class="glass border-b border-yellow-900/20 sticky top-0 z-20">
+    <div class="max-w-screen-lg mx-auto px-6 py-3 flex items-center justify-between">
+      <a routerLink="/"
+         class="flex items-center gap-2 text-sm text-gray-400 hover:text-yellow-400 transition font-semibold group">
+        <span class="group-hover:-translate-x-1 transition-transform">←</span>
+        Retour à la liste
+      </a>
+      @if (card()) {
+        <span class="text-xs text-gray-600 truncate max-w-60">{{ card()!.name }}</span>
+      }
+    </div>
+  </nav>
+
+  <div class="max-w-screen-lg mx-auto px-6 py-10">
+
+    @if (loading()) {
+      <div class="flex flex-col items-center justify-center py-40 gap-5">
+        <div class="spinner"></div>
+        <p class="text-yellow-500/70 text-sm tracking-widest uppercase animate-pulse">Chargement…</p>
+      </div>
+
+    } @else if (error()) {
+      <div class="flex flex-col items-center py-32 gap-4">
+        <span class="text-5xl">⚠</span>
+        <p class="text-red-400">Impossible de charger cette carte.</p>
+        <a routerLink="/" class="text-yellow-500 hover:underline text-sm">Retour à la liste</a>
+      </div>
+
+    } @else if (card(); as c) {
+
+      <div class="flex flex-col md:flex-row gap-10 items-start">
+
+        <!-- ── COLONNE GAUCHE : image ── -->
+        <div class="flex-shrink-0 flex flex-col gap-4 items-center md:items-start">
+
+          <!-- Image avec effet de lueur -->
+          <div class="relative group">
+            <div class="absolute -inset-1 rounded-2xl bg-gradient-to-br from-yellow-500/30 via-purple-500/10 to-yellow-500/30 blur-lg opacity-60 group-hover:opacity-100 transition-opacity duration-500"></div>
+            <img
+              [src]="c.card_images[0].image_url"
+              [alt]="c.name"
+              class="relative w-64 rounded-2xl shadow-2xl border border-white/10"
+            />
+          </div>
+
+          <!-- Vignettes autres images -->
+          @if (c.card_images.length > 1) {
+            <div class="flex gap-2">
+              @for (img of c.card_images; track img.id) {
+                <img [src]="img.image_url_small" [alt]="c.name"
+                     class="w-12 rounded-lg border border-white/10 hover:border-yellow-400 transition cursor-pointer opacity-70 hover:opacity-100" />
+              }
+            </div>
+          }
+
+          <!-- Bouton deck -->
+          <button
+            (click)="collection.ajouter(c)"
+            [disabled]="collection.estDansDeck(c.id)"
+            class="w-64 py-3 rounded-xl font-bold text-sm tracking-wide transition-all"
+            [class]="collection.estDansDeck(c.id)
+              ? 'bg-yellow-900/20 text-yellow-600 border border-yellow-800/30 cursor-not-allowed'
+              : 'bg-yellow-500 hover:bg-yellow-400 text-black cursor-pointer shadow-[0_0_20px_#FFD70044] hover:shadow-[0_0_32px_#FFD70088]'"
+          >
+            {{ collection.estDansDeck(c.id) ? '✓ Déjà dans le deck' : '+ Ajouter au deck' }}
+          </button>
+
+          <a routerLink="/deck"
+             class="w-64 py-2 text-center rounded-xl border border-white/10 text-sm text-gray-400 hover:text-yellow-400 hover:border-yellow-500/30 transition">
+            Voir mon deck ({{ collection.total() }})
+          </a>
+        </div>
+
+        <!-- ── COLONNE DROITE : infos ── -->
+        <div class="flex-1 space-y-6 min-w-0">
+
+          <!-- Nom + type badges -->
+          <div>
+            <h1 class="font-display text-3xl font-bold text-gold-gradient mb-3 leading-tight">{{ c.name }}</h1>
+            <div class="flex flex-wrap gap-2">
+              <span class="px-3 py-1 rounded-full text-xs font-semibold bg-purple-900/40 border border-purple-700/40 text-purple-300">
+                {{ c.type }}
+              </span>
+              @if (c.attribute) {
+                <span class="px-3 py-1 rounded-full text-xs font-semibold bg-yellow-900/30 border border-yellow-700/30 text-yellow-400">
+                  {{ c.attribute }}
+                </span>
+              }
+              @if (c.race) {
+                <span class="px-3 py-1 rounded-full text-xs font-semibold bg-blue-900/30 border border-blue-700/30 text-blue-400">
+                  {{ c.race }}
+                </span>
+              }
+              @if (c.archetype) {
+                <span class="px-3 py-1 rounded-full text-xs font-semibold bg-emerald-900/30 border border-emerald-700/30 text-emerald-400">
+                  {{ c.archetype }}
+                </span>
+              }
+            </div>
+          </div>
+
+          <!-- Niveau -->
+          @if (c.level) {
+            <div class="flex items-center gap-2">
+              <span class="text-xs text-gray-500 uppercase tracking-widest">Niveau</span>
+              <div class="flex gap-0.5">
+                @for (star of [].constructor(c.level); track $index) {
+                  <span class="text-yellow-400 text-sm">★</span>
+                }
+              </div>
+            </div>
+          }
+
+          <!-- ATK / DEF -->
+          @if (c.atk != null) {
+            <div class="grid grid-cols-2 gap-4">
+              <div class="glass rounded-xl p-4">
+                <p class="text-xs text-gray-500 uppercase tracking-widest mb-1">ATK</p>
+                <p class="text-2xl font-black text-yellow-400">{{ c.atk }}</p>
+                <div class="stat-bar-track mt-2">
+                  <div class="stat-bar-fill bg-gradient-to-r from-yellow-600 to-yellow-400"
+                       [style.width.%]="(c.atk! / 5000) * 100">
+                  </div>
+                </div>
+              </div>
+              <div class="glass rounded-xl p-4">
+                <p class="text-xs text-gray-500 uppercase tracking-widest mb-1">DEF</p>
+                <p class="text-2xl font-black text-blue-400">{{ c.def }}</p>
+                <div class="stat-bar-track mt-2">
+                  <div class="stat-bar-fill bg-gradient-to-r from-blue-700 to-blue-400"
+                       [style.width.%]="(c.def! / 5000) * 100">
+                  </div>
+                </div>
+              </div>
+            </div>
+          }
+
+          <!-- Description -->
+          <div class="glass rounded-xl p-5">
+            <p class="text-xs text-gray-500 uppercase tracking-widest mb-3">Description</p>
+            <p class="text-gray-300 leading-relaxed text-sm italic">{{ c.desc }}</p>
+          </div>
+
+          <!-- Prix -->
+          @if (c.card_prices?.[0]) {
+            <div class="glass rounded-xl p-5">
+              <p class="text-xs text-gray-500 uppercase tracking-widest mb-3">Prix du marché</p>
+              <div class="grid grid-cols-2 gap-3">
+                <div>
+                  <p class="text-xs text-gray-600">Cardmarket</p>
+                  <p class="text-lg font-bold text-yellow-400">{{ c.card_prices![0].cardmarket_price }} €</p>
+                </div>
+                <div>
+                  <p class="text-xs text-gray-600">TCGPlayer</p>
+                  <p class="text-lg font-bold text-blue-400">{{ c.card_prices![0].tcgplayer_price }} $</p>
+                </div>
+                <div>
+                  <p class="text-xs text-gray-600">eBay</p>
+                  <p class="font-semibold text-gray-300">{{ c.card_prices![0].ebay_price }} $</p>
+                </div>
+                <div>
+                  <p class="text-xs text-gray-600">Amazon</p>
+                  <p class="font-semibold text-gray-300">{{ c.card_prices![0].amazon_price }} $</p>
+                </div>
+              </div>
+            </div>
+          }
+
+          <!-- Sets -->
+          @if (c.card_sets && c.card_sets.length > 0) {
+            <div class="glass rounded-xl p-5">
+              <p class="text-xs text-gray-500 uppercase tracking-widest mb-3">
+                Disponible dans {{ c.card_sets.length }} set(s)
+              </p>
+              <ul class="space-y-1.5 max-h-52 overflow-y-auto pr-1">
+                @for (s of c.card_sets; track s.set_code) {
+                  <li class="flex items-center justify-between bg-white/3 rounded-lg px-3 py-2 hover:bg-white/5 transition">
+                    <span class="text-sm text-gray-300">{{ s.set_name }}</span>
+                    <span class="text-xs font-mono text-gray-600">{{ s.set_rarity }}</span>
+                  </li>
+                }
+              </ul>
+            </div>
+          }
+
+        </div>
+      </div>
+    }
+  </div>
+</div>

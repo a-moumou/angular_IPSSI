@@ -1,0 +1,117 @@
+@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700;900&family=Inter:wght@300;400;500;600;700&display=swap');
+@import 'tailwindcss';
+
+@theme {
+  --font-display: 'Cinzel', serif;
+  --font-body: 'Inter', sans-serif;
+  --color-gold: #FFD700;
+  --color-gold-light: #FFE55C;
+  --color-gold-dark: #B8960C;
+  --color-void: #050508;
+  --color-surface: #0d0d1a;
+  --color-surface-2: #12121f;
+  --color-surface-3: #1a1a2e;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html, body {
+  background-color: #050508;
+  font-family: 'Inter', sans-serif;
+  color: #e2e2e2;
+  scrollbar-width: thin;
+  scrollbar-color: #FFD700 #0d0d1a;
+}
+
+::-webkit-scrollbar { width: 6px; height: 6px; }
+::-webkit-scrollbar-track { background: #0d0d1a; }
+::-webkit-scrollbar-thumb { background: #B8960C; border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: #FFD700; }
+
+/* ─── Spinner ─── */
+@keyframes spin-ring {
+  to { transform: rotate(360deg); }
+}
+@keyframes pulse-glow {
+  0%, 100% { opacity: 1; box-shadow: 0 0 20px #FFD700aa; }
+  50%       { opacity: 0.6; box-shadow: 0 0 40px #FFD700; }
+}
+@keyframes card-shimmer {
+  0%   { background-position: -200% center; }
+  100% { background-position:  200% center; }
+}
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50%       { transform: translateY(-6px); }
+}
+
+.spinner {
+  width: 56px;
+  height: 56px;
+  border: 3px solid #1a1a2e;
+  border-top-color: #FFD700;
+  border-radius: 50%;
+  animation: spin-ring 0.8s linear infinite;
+}
+
+/* ─── Card Glow ─── */
+.card-glow {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.card-glow:hover {
+  box-shadow: 0 0 0 1px #FFD700, 0 0 20px #FFD70055, 0 8px 32px #00000088;
+  transform: translateY(-4px) scale(1.02);
+}
+
+/* ─── Gold gradient text ─── */
+.text-gold-gradient {
+  background: linear-gradient(135deg, #FFE55C 0%, #FFD700 40%, #B8960C 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* ─── Shimmer badge ─── */
+.shimmer {
+  background: linear-gradient(90deg, #1a1a2e 25%, #2a2a4e 50%, #1a1a2e 75%);
+  background-size: 200% auto;
+  animation: card-shimmer 2s linear infinite;
+}
+
+/* ─── Glass panel ─── */
+.glass {
+  background: rgba(13, 13, 26, 0.8);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 215, 0, 0.12);
+}
+
+/* ─── Star background pattern ─── */
+.star-bg {
+  background-color: #050508;
+  background-image:
+    radial-gradient(circle at 20% 50%, rgba(88, 28, 235, 0.08) 0%, transparent 50%),
+    radial-gradient(circle at 80% 20%, rgba(255, 215, 0, 0.05) 0%, transparent 40%),
+    radial-gradient(circle at 50% 80%, rgba(6, 78, 194, 0.06) 0%, transparent 50%);
+}
+
+/* ─── Stat bar ─── */
+.stat-bar-track {
+  background: #1a1a2e;
+  border-radius: 999px;
+  overflow: hidden;
+  height: 8px;
+}
+.stat-bar-fill {
+  height: 100%;
+  border-radius: 999px;
+  transition: width 0.6s ease;
+}
+
+/* ─── Rarity badge colours ─── */
+.rarity-common   { color: #a0a0a0; }
+.rarity-rare     { color: #4fc3f7; }
+.rarity-super    { color: #FFD700; }
+.rarity-ultra    { color: #b39ddb; }

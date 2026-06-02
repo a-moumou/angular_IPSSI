@@ -1,0 +1,212 @@
+<div class="min-h-screen star-bg">
+
+  <!-- ══ HEADER ══════════════════════════════════════════════ -->
+  <header class="relative overflow-hidden border-b border-yellow-900/30">
+    <div class="absolute inset-0 bg-gradient-to-r from-[#0a0014] via-[#1a0030] to-[#0a0014]"></div>
+    <div class="absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(255,215,0,0.08)_0%,transparent_70%)]"></div>
+
+    <div class="relative z-10 max-w-screen-xl mx-auto px-6 py-5 flex items-center justify-between gap-4">
+      <div class="flex items-center gap-4">
+        <div class="w-10 h-10 rounded-full bg-gradient-to-br from-yellow-400 to-yellow-700 flex items-center justify-center text-black font-black text-lg shadow-[0_0_16px_#FFD70066]">
+          ✦
+        </div>
+        <div>
+          <h1 class="font-display text-xl font-bold text-gold-gradient tracking-wide">Yu-Gi-Oh Explorer</h1>
+          <p class="text-xs text-gray-500 font-light">YGOPRODeck · API officielle</p>
+        </div>
+      </div>
+
+      <a routerLink="/deck"
+         class="group relative flex items-center gap-3 glass px-5 py-2.5 rounded-xl hover:border-yellow-500/40 transition-all duration-300">
+        <span class="text-sm font-semibold text-gray-200 group-hover:text-yellow-400 transition">Mon Deck</span>
+        <span class="flex items-center justify-center w-6 h-6 rounded-full bg-yellow-500 text-black text-xs font-black shadow-[0_0_8px_#FFD700aa]">
+          {{ collection.total() }}
+        </span>
+      </a>
+    </div>
+  </header>
+
+  <!-- ══ BARRE DE FILTRES ══════════════════════════════════════ -->
+  <div class="sticky top-0 z-20 glass border-b border-yellow-900/20">
+    <div class="max-w-screen-xl mx-auto px-6 py-3">
+      <form class="flex flex-wrap gap-2 items-center" (submit)="$event.preventDefault(); rechercher()">
+        <div class="relative flex-1 min-w-52">
+          <span class="absolute left-3 top-1/2 -translate-y-1/2 text-gray-500 text-sm">⌕</span>
+          <input
+            [(ngModel)]="recherche"
+            name="q"
+            placeholder="Rechercher une carte…"
+            class="w-full bg-white/5 border border-white/10 rounded-lg pl-8 pr-4 py-2 text-sm text-white placeholder-gray-500 focus:outline-none focus:border-yellow-500/50 focus:bg-white/8 transition"
+          />
+        </div>
+
+        <select (change)="filtrerType($any($event.target).value)"
+          class="bg-white/5 border border-white/10 rounded-lg px-3 py-2 text-sm text-gray-300 focus:outline-none focus:border-yellow-500/50 transition cursor-pointer">
+          <option value="" class="bg-[#12121f]">— Type —</option>
+          @for (t of filters.types; track t) {
+            <option [value]="t" class="bg-[#12121f]">{{ t }}</option>
+          }
+        </select>
+
+        <select (change)="filtrerAttribut($any($event.target).value)"
+          class="bg-white/5 border border-white/10 rounded-lg px-3 py-2 text-sm text-gray-300 focus:outline-none focus:border-yellow-500/50 transition cursor-pointer">
+          <option value="" class="bg-[#12121f]">— Attribut —</option>
+          @for (a of filters.attributes; track a) {
+            <option [value]="a" class="bg-[#12121f]">{{ a }}</option>
+          }
+        </select>
+
+        <button type="submit"
+          class="bg-yellow-500 hover:bg-yellow-400 active:scale-95 text-black text-sm font-bold px-5 py-2 rounded-lg transition-all shadow-[0_0_12px_#FFD70033] hover:shadow-[0_0_20px_#FFD70066] cursor-pointer">
+          Rechercher
+        </button>
+        <button type="button" (click)="reinitialiser()"
+          class="bg-white/5 hover:bg-white/10 border border-white/10 text-gray-400 hover:text-white text-sm px-4 py-2 rounded-lg transition cursor-pointer">
+          ✕ Reset
+        </button>
+      </form>
+    </div>
+  </div>
+
+  <!-- ══ CONTENU ════════════════════════════════════════════════ -->
+  <main class="max-w-screen-xl mx-auto px-6 py-8">
+
+    @if (loading()) {
+      <div class="flex flex-col items-center justify-center py-32 gap-5">
+        <div class="spinner"></div>
+        <p class="text-yellow-500/70 text-sm font-light tracking-widest uppercase animate-pulse">
+          Invocation des cartes…
+        </p>
+      </div>
+
+    } @else if (error()) {
+      <div class="flex flex-col items-center justify-center py-24 gap-3">
+        <span class="text-5xl">⚠</span>
+        <p class="text-red-400 font-semibold">{{ error() }}</p>
+        <button (click)="charger()"
+                class="mt-2 text-sm text-yellow-500 hover:text-yellow-300 underline transition cursor-pointer">
+          Réessayer
+        </button>
+      </div>
+
+    } @else {
+
+      <!-- Compteur -->
+      <div class="flex items-center justify-between mb-5">
+        <p class="text-xs text-gray-600 font-light">
+          {{ totalCards() | number:'1.0-0' }} cartes au total
+          · Page <span class="text-gray-400">{{ page() }}</span> / {{ totalPages() }}
+        </p>
+        <p class="text-xs text-gray-700">{{ perPage }} par page</p>
+      </div>
+
+      <!-- Grille de cartes -->
+      <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-4">
+        @for (c of cards(); track c.id) {
+          <article class="card-glow group relative bg-gradient-to-b from-[#12121f] to-[#0d0d18] rounded-xl overflow-hidden border border-white/5 flex flex-col">
+            <div class="absolute top-2 left-2 z-10">
+              @if (collection.estDansDeck(c.id)) {
+                <span class="flex items-center justify-center w-5 h-5 bg-yellow-500 text-black text-[10px] font-bold rounded-full shadow-[0_0_8px_#FFD700]">✓</span>
+              }
+            </div>
+            <a [routerLink]="['/carte', c.id]" class="block overflow-hidden">
+              <img [src]="c.card_images[0].image_url_small" [alt]="c.name"
+                   class="w-full object-cover group-hover:scale-110 transition-transform duration-500" loading="lazy" />
+              <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none"></div>
+            </a>
+            <div class="p-2.5 flex flex-col gap-2 flex-1">
+              <a [routerLink]="['/carte', c.id]"
+                 class="text-[11px] font-semibold text-gray-200 hover:text-yellow-400 transition leading-snug line-clamp-2">
+                {{ c.name }}
+              </a>
+              <button
+                (click)="collection.ajouter(c)"
+                [disabled]="collection.estDansDeck(c.id)"
+                class="mt-auto text-[11px] py-1.5 rounded-lg font-bold tracking-wide transition-all"
+                [class]="collection.estDansDeck(c.id)
+                  ? 'bg-yellow-900/20 text-yellow-600 border border-yellow-800/30 cursor-not-allowed'
+                  : 'bg-yellow-500/10 hover:bg-yellow-500 border border-yellow-500/30 hover:border-yellow-500 text-yellow-400 hover:text-black cursor-pointer hover:shadow-[0_0_12px_#FFD70055]'"
+              >
+                {{ collection.estDansDeck(c.id) ? '✓ Dans le deck' : '+ Ajouter' }}
+              </button>
+            </div>
+          </article>
+        } @empty {
+          <div class="col-span-full flex flex-col items-center justify-center py-24 gap-3 text-gray-600">
+            <span class="text-6xl opacity-30">🃏</span>
+            <p class="text-lg">Aucune carte trouvée.</p>
+            <button (click)="reinitialiser()"
+                    class="text-sm text-yellow-600 hover:text-yellow-400 transition underline cursor-pointer">
+              Réinitialiser les filtres
+            </button>
+          </div>
+        }
+      </div>
+
+      <!-- ══ PAGINATION ════════════════════════════════════════ -->
+      @if (totalPages() > 1) {
+        <nav class="flex items-center justify-center gap-1.5 mt-12 flex-wrap" aria-label="Pagination">
+
+          <!-- Première page -->
+          <button (click)="goToPage(1)" [disabled]="page() === 1"
+            class="px-3 py-2 rounded-lg text-sm transition"
+            [class]="page() === 1
+              ? 'text-gray-700 cursor-not-allowed'
+              : 'glass hover:border-yellow-500/30 text-gray-400 hover:text-yellow-400 cursor-pointer'">
+            «
+          </button>
+
+          <!-- Page précédente -->
+          <button (click)="goToPage(page() - 1)" [disabled]="page() === 1"
+            class="px-3 py-2 rounded-lg text-sm transition"
+            [class]="page() === 1
+              ? 'text-gray-700 cursor-not-allowed'
+              : 'glass hover:border-yellow-500/30 text-gray-400 hover:text-yellow-400 cursor-pointer'">
+            ‹
+          </button>
+
+          <!-- Numéros de pages -->
+          @for (p of pageNumbers(); track $index) {
+            @if (p === '…') {
+              <span class="px-2 py-2 text-gray-600 text-sm select-none">…</span>
+            } @else {
+              <button (click)="goToPage(+p)"
+                class="min-w-9 h-9 rounded-lg text-sm font-semibold transition-all"
+                [class]="page() === p
+                  ? 'bg-yellow-500 text-black shadow-[0_0_16px_#FFD70066] cursor-default scale-105'
+                  : 'glass hover:border-yellow-500/30 text-gray-400 hover:text-yellow-400 cursor-pointer'">
+                {{ p }}
+              </button>
+            }
+          }
+
+          <!-- Page suivante -->
+          <button (click)="goToPage(page() + 1)" [disabled]="page() === totalPages()"
+            class="px-3 py-2 rounded-lg text-sm transition"
+            [class]="page() === totalPages()
+              ? 'text-gray-700 cursor-not-allowed'
+              : 'glass hover:border-yellow-500/30 text-gray-400 hover:text-yellow-400 cursor-pointer'">
+            ›
+          </button>
+
+          <!-- Dernière page -->
+          <button (click)="goToPage(totalPages())" [disabled]="page() === totalPages()"
+            class="px-3 py-2 rounded-lg text-sm transition"
+            [class]="page() === totalPages()
+              ? 'text-gray-700 cursor-not-allowed'
+              : 'glass hover:border-yellow-500/30 text-gray-400 hover:text-yellow-400 cursor-pointer'">
+            »
+          </button>
+
+        </nav>
+
+        <!-- Indicateur texte -->
+        <p class="text-center text-xs text-gray-700 mt-3">
+          Page {{ page() }} sur {{ totalPages() }}
+          · cartes {{ (page() - 1) * perPage + 1 }}–{{ lastCard() }}
+        </p>
+      }
+
+    }
+  </main>
+</div>

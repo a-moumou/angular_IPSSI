@@ -1,0 +1,141 @@
+<div class="min-h-screen star-bg">
+
+  <!-- ══ NAV ══════════════════════════════════════════════════ -->
+  <nav class="glass border-b border-yellow-900/20 sticky top-0 z-20">
+    <div class="max-w-screen-md mx-auto px-6 py-3 flex items-center gap-3">
+      <a routerLink="/"
+         class="flex items-center gap-2 text-sm text-gray-400 hover:text-yellow-400 transition font-semibold group">
+        <span class="group-hover:-translate-x-1 transition-transform">←</span>
+        Liste des cartes
+      </a>
+    </div>
+  </nav>
+
+  <div class="max-w-screen-md mx-auto px-6 py-10">
+
+    <!-- ══ EN-TÊTE DU DECK ══════════════════════════════════ -->
+    <div class="flex items-start justify-between mb-8 gap-4">
+      <div>
+        <h1 class="font-display text-3xl font-bold text-gold-gradient">Mon Deck</h1>
+        <p class="text-gray-500 text-sm mt-1">
+          <span class="text-yellow-400 font-bold text-lg">{{ collection.total() }}</span>
+          / 60 cartes
+        </p>
+        <!-- Barre de progression du deck -->
+        <div class="stat-bar-track w-48 mt-2">
+          <div class="stat-bar-fill bg-gradient-to-r from-yellow-700 to-yellow-400"
+               [style.width.%]="(collection.total() / 60) * 100">
+          </div>
+        </div>
+      </div>
+
+      @if (collection.deck().length > 0) {
+        <button
+          (click)="collection.vider()"
+          class="flex items-center gap-2 bg-red-950/50 hover:bg-red-900/60 border border-red-800/40 text-red-400 hover:text-red-300 px-4 py-2 rounded-xl text-sm font-semibold transition cursor-pointer"
+        >
+          Vider
+        </button>
+      }
+    </div>
+
+    <!-- ══ DECK VIDE ══════════════════════════════════════════ -->
+    @if (collection.deck().length === 0) {
+      <div class="glass rounded-2xl border border-white/5 flex flex-col items-center justify-center py-24 gap-5">
+        <div class="w-20 h-20 rounded-full bg-gradient-to-br from-[#1a1a2e] to-[#0d0d18] border border-white/10 flex items-center justify-center text-4xl opacity-40">
+          🃏
+        </div>
+        <div class="text-center">
+          <p class="text-gray-400 font-semibold text-lg">Ton deck est vide</p>
+          <p class="text-gray-600 text-sm mt-1">Ajoute des cartes depuis la liste pour construire ton deck.</p>
+        </div>
+        <a routerLink="/"
+           class="bg-yellow-500 hover:bg-yellow-400 text-black font-bold px-6 py-2.5 rounded-xl transition shadow-[0_0_16px_#FFD70033] hover:shadow-[0_0_24px_#FFD70055] text-sm">
+          Parcourir les cartes
+        </a>
+      </div>
+
+    } @else {
+
+      <!-- ══ LISTE DU DECK ═══════════════════════════════════ -->
+      <ul class="space-y-2">
+        @for (entry of collection.deck(); track entry.card.id) {
+          <li class="group glass rounded-xl border border-white/5 hover:border-yellow-900/40 p-3 flex items-center gap-4 transition-all duration-200 hover:shadow-[0_0_20px_#FFD70011]">
+
+            <!-- Image -->
+            <a [routerLink]="['/carte', entry.card.id]" class="flex-shrink-0">
+              <img
+                [src]="entry.card.card_images[0].image_url_small"
+                [alt]="entry.card.name"
+                class="w-14 h-20 object-cover rounded-lg border border-white/10 group-hover:border-yellow-500/30 transition shadow-lg"
+              />
+            </a>
+
+            <!-- Nom + type -->
+            <div class="flex-1 min-w-0">
+              <a [routerLink]="['/carte', entry.card.id]"
+                 class="font-semibold text-gray-200 hover:text-yellow-400 transition text-sm leading-snug block truncate">
+                {{ entry.card.name }}
+              </a>
+              <p class="text-xs text-gray-600 mt-0.5 truncate">{{ entry.card.type }}</p>
+              @if (entry.card.atk != null) {
+                <p class="text-xs text-gray-700 mt-1">
+                  <span class="text-yellow-700">ATK</span> {{ entry.card.atk }}
+                  &nbsp;·&nbsp;
+                  <span class="text-blue-800">DEF</span> {{ entry.card.def }}
+                </p>
+              }
+            </div>
+
+            <!-- Quantité + contrôles -->
+            <div class="flex items-center gap-2 flex-shrink-0">
+              <button
+                (click)="collection.ajouter(entry.card)"
+                [disabled]="entry.quantite >= 3"
+                class="w-7 h-7 rounded-full text-sm font-bold transition-all flex items-center justify-center"
+                [class]="entry.quantite >= 3
+                  ? 'bg-white/5 text-gray-700 cursor-not-allowed'
+                  : 'bg-white/8 hover:bg-yellow-500 hover:text-black text-gray-400 cursor-pointer transition'"
+              >+</button>
+
+              <!-- Dots de quantité -->
+              <div class="flex flex-col gap-1 items-center">
+                @for (dot of [1,2,3]; track dot) {
+                  <div class="w-1.5 h-1.5 rounded-full transition"
+                       [class]="dot <= entry.quantite ? 'bg-yellow-400' : 'bg-white/10'">
+                  </div>
+                }
+              </div>
+
+              <span class="text-yellow-400 font-black text-lg w-4 text-center">{{ entry.quantite }}</span>
+
+              <button
+                (click)="collection.retirer(entry.card.id)"
+                class="w-7 h-7 rounded-full bg-white/5 hover:bg-red-900/60 text-gray-600 hover:text-red-400 transition flex items-center justify-center text-xs cursor-pointer"
+                title="Retirer"
+              >✕</button>
+            </div>
+
+          </li>
+        }
+      </ul>
+
+      <!-- Stats -->
+      <div class="mt-8 grid grid-cols-3 gap-3">
+        <div class="glass rounded-xl p-4 text-center border border-purple-900/20">
+          <p class="text-2xl font-black text-purple-400">{{ monstres() }}</p>
+          <p class="text-xs text-gray-600 mt-1">Monstres</p>
+        </div>
+        <div class="glass rounded-xl p-4 text-center border border-cyan-900/20">
+          <p class="text-2xl font-black text-cyan-400">{{ magies() }}</p>
+          <p class="text-xs text-gray-600 mt-1">Magies</p>
+        </div>
+        <div class="glass rounded-xl p-4 text-center border border-red-900/20">
+          <p class="text-2xl font-black text-red-400">{{ pieges() }}</p>
+          <p class="text-xs text-gray-600 mt-1">Pièges</p>
+        </div>
+      </div>
+
+    }
+  </div>
+</div>
