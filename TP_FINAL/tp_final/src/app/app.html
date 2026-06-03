@@ -1,0 +1,28 @@
+<div class="app-shell">
+  <header class="header">
+    <a routerLink="/dashboard" class="brand">
+      <span class="brand-icon">🛸</span>
+      Rick & Morty Explorer
+    </a>
+    <nav class="nav">
+      <a routerLink="/dashboard" routerLinkActive="active">Dashboard</a>
+      <a routerLink="/characters" routerLinkActive="active">Personnages</a>
+      <a routerLink="/locations" routerLinkActive="active">Lieux</a>
+      <a routerLink="/episodes" routerLinkActive="active">Épisodes</a>
+      <a routerLink="/favoris" routerLinkActive="active">
+        Favoris
+        @if (badgeFavoris()) {
+          <span class="badge">{{ badgeFavoris() }}</span>
+        }
+      </a>
+      <a routerLink="/contact" routerLinkActive="active">Contact</a>
+    </nav>
+  </header>
+  <main class="main">
+    <router-outlet />
+  </main>
+  <footer class="footer">
+    API —
+    <a href="https://rickandmortyapi.com" target="_blank" rel="noopener">rickandmortyapi.com</a>
+  </footer>
+</div>
