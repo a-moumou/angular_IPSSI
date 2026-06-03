@@ -1,0 +1,95 @@
+<section class="dex-hero">
+  <div class="dex-hero__content">
+    <p class="dex-hero__eyebrow">Encyclopédie numérique</p>
+    <h1 class="dex-hero__title">Explore le monde Digimon</h1>
+    <p class="dex-hero__sub">
+      {{ page()?.totalElements ?? '…' }} créatures indexées · données via GraphQL
+    </p>
+  </div>
+  <div class="dex-hero__orb" aria-hidden="true"></div>
+</section>
+
+<form class="dex-search" (submit)="$event.preventDefault(); rechercher()">
+  <div class="dex-search__field">
+    <span class="dex-search__icon" aria-hidden="true">⌕</span>
+    <input
+      class="dex-search__input"
+      [ngModel]="recherche()"
+      (ngModelChange)="recherche.set($event)"
+      name="q"
+      placeholder="Agumon, Greymon, Angemon…"
+      autocomplete="off"
+    />
+  </div>
+  <button type="submit" class="dex-btn dex-btn--primary">Rechercher</button>
+</form>
+
+@if (loading()) {
+  <div class="dex-grid dex-grid--loading">
+    @for (i of [1, 2, 3, 4, 5, 6, 7, 8]; track i) {
+      <div class="dex-card dex-card--skeleton">
+        <div class="dex-skeleton dex-skeleton--img"></div>
+        <div class="dex-skeleton dex-skeleton--text"></div>
+      </div>
+    }
+  </div>
+} @else if (error()) {
+  <div class="dex-alert">
+    <span class="dex-alert__icon">⚠</span>
+    <div>
+      <strong>Connexion impossible</strong>
+      <p>{{ error() }}</p>
+    </div>
+    <button type="button" class="dex-btn dex-btn--outline" (click)="charger()">Réessayer</button>
+  </div>
+} @else if (page(); as p) {
+  <div class="dex-grid">
+    @for (d of p.items; track d.id) {
+      <article class="dex-card" [class.dex-card--fav]="favoris.estFavori(d.id)">
+        <button
+          type="button"
+          class="dex-card__fav"
+          (click)="favoris.toggle(d); $event.stopPropagation()"
+          [attr.aria-label]="favoris.estFavori(d.id) ? 'Retirer des favoris' : 'Ajouter aux favoris'"
+        >
+          {{ favoris.estFavori(d.id) ? '★' : '☆' }}
+        </button>
+        <a [routerLink]="['/digimon', d.id]" class="dex-card__link">
+          <div class="dex-card__img-wrap">
+            <img [src]="d.image" [alt]="d.name" loading="lazy" />
+          </div>
+          <div class="dex-card__body">
+            <span class="dex-card__id">#{{ d.id }}</span>
+            <h2 class="dex-card__name">{{ d.name }}</h2>
+          </div>
+        </a>
+      </article>
+    } @empty {
+      <p class="dex-empty">Aucun Digimon trouvé pour cette recherche.</p>
+    }
+  </div>
+
+  <nav class="dex-pagination" aria-label="Pagination">
+    <button
+      type="button"
+      class="dex-btn dex-btn--ghost"
+      (click)="pagePrecedente()"
+      [disabled]="pageCourante() === 0"
+    >
+      ← Précédent
+    </button>
+    <div class="dex-pagination__info">
+      <span class="dex-pagination__current">{{ p.currentPage + 1 }}</span>
+      <span class="dex-pagination__sep">/</span>
+      <span>{{ p.totalPages }}</span>
+    </div>
+    <button
+      type="button"
+      class="dex-btn dex-btn--ghost"
+      (click)="pageSuivante()"
+      [disabled]="pageCourante() + 1 >= p.totalPages"
+    >
+      Suivant →
+    </button>
+  </nav>
+}

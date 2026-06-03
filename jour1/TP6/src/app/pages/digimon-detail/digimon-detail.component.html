@@ -1,0 +1,93 @@
+<a routerLink="/" class="detail-back">
+  <span aria-hidden="true">←</span> Retour au DigiDex
+</a>
+
+@if (loading()) {
+  <div class="detail-loading">
+    <div class="detail-loading__ring"></div>
+    <p>Analyse des données en cours…</p>
+  </div>
+} @else if (digimon(); as d) {
+  <article class="detail-hero">
+    <div class="detail-hero__visual">
+      <div class="detail-hero__frame">
+        <img [src]="d.images?.[0]?.href" [alt]="d.name" />
+      </div>
+      <span class="detail-hero__id">#{{ d.id }}</span>
+    </div>
+
+    <div class="detail-hero__info">
+      <h1 class="detail-hero__name">{{ d.name }}</h1>
+
+      @if (d.releaseDate) {
+        <p class="detail-hero__date">Première apparition · {{ d.releaseDate }}</p>
+      }
+
+      <div class="detail-tags">
+        @for (level of d.levels; track level) {
+          <span class="detail-tag detail-tag--level">{{ level }}</span>
+        }
+        @for (type of d.types; track type) {
+          <span class="detail-tag detail-tag--type">{{ type }}</span>
+        }
+        @for (attr of d.attributes; track attr) {
+          <span class="detail-tag detail-tag--attr">{{ attr }}</span>
+        }
+      </div>
+
+      @if (d.descriptions?.length) {
+        <blockquote class="detail-quote">{{ d.descriptions![0] }}</blockquote>
+      }
+    </div>
+  </article>
+
+  <section class="detail-evolutions">
+    <div class="detail-evo-col">
+      <h2 class="detail-evo-title">
+        <span class="detail-evo-title__icon">◀</span>
+        Évolue depuis
+      </h2>
+      <ul class="detail-evo-list">
+        @for (e of d.priorEvolutions; track e.id) {
+          <li>
+            <a [routerLink]="['/digimon', e.id]" class="detail-evo-card">
+              @if (e.image) {
+                <img [src]="e.image" [alt]="e.digimon" class="detail-evo-card__img" />
+              }
+              <div class="detail-evo-card__text">
+                <strong>{{ e.digimon }}</strong>
+                <span>{{ e.condition }}</span>
+              </div>
+            </a>
+          </li>
+        } @empty {
+          <li class="detail-evo-empty">Aucune évolution antérieure</li>
+        }
+      </ul>
+    </div>
+
+    <div class="detail-evo-col">
+      <h2 class="detail-evo-title">
+        Évolue vers
+        <span class="detail-evo-title__icon">▶</span>
+      </h2>
+      <ul class="detail-evo-list">
+        @for (e of d.nextEvolutions; track e.id) {
+          <li>
+            <a [routerLink]="['/digimon', e.id]" class="detail-evo-card">
+              @if (e.image) {
+                <img [src]="e.image" [alt]="e.digimon" class="detail-evo-card__img" />
+              }
+              <div class="detail-evo-card__text">
+                <strong>{{ e.digimon }}</strong>
+                <span>{{ e.condition }}</span>
+              </div>
+            </a>
+          </li>
+        } @empty {
+          <li class="detail-evo-empty">Aucune évolution suivante</li>
+        }
+      </ul>
+    </div>
+  </section>
+}

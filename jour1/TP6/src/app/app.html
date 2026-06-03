@@ -1,0 +1,27 @@
+<div class="app-shell">
+  <header class="app-header">
+    <div class="app-header__inner">
+      <a routerLink="/" class="app-logo">
+        <span class="app-logo__icon">◆</span>
+        <span>
+          <span class="app-logo__text">DIGIDEX</span>
+          <span class="app-logo__tag">GraphQL · digi-api</span>
+        </span>
+      </a>
+      @if (favorisCount() > 0) {
+        <div class="app-badge">
+          <span class="app-badge__count">{{ favorisCount() }}</span>
+          <span>favoris</span>
+        </div>
+      }
+    </div>
+  </header>
+
+  <main class="app-main">
+    <router-outlet />
+  </main>
+
+  <footer class="app-footer">
+    Propulsé par <span>Apollo GraphQL</span> · TP6 DigiDex
+  </footer>
+</div>
