@@ -1,3 +1,7 @@
+/**
+ * Routes de l'application Pokédex.
+ * Liste, fiche détail par nom, favoris et redirection des URLs inconnues.
+ */
 import { Routes } from '@angular/router';
 import { PokemonListComponent } from './pages/pokemon-list/pokemon-list';
 import { PokemonDetailComponent } from './pages/pokemon-detail/pokemon-detail';

@@ -1,21 +1,26 @@
+<!-- Layout principal : décorations de fond, en-tête, contenu des pages, pied de page -->
 <div class="relative flex min-h-dvh flex-col">
+  <!-- Formes décoratives fixes (n'affectent pas les clics) -->
   <div class="pointer-events-none fixed inset-0 -z-10 overflow-hidden" aria-hidden="true">
     <div
-      class="absolute -right-32 -top-32 h-[28rem] w-[28rem] animate-pulse-glow rounded-full bg-portal/20 blur-[100px]"
+      class="absolute -right-16 top-24 h-40 w-40 animate-float rounded-full border-4 border-ink bg-cyan-glow shadow-[8px_8px_0_#1a1a1a]"
     ></div>
     <div
-      class="absolute -left-24 top-1/3 h-72 w-72 animate-float rounded-full bg-cosmic/20 blur-[90px]"
+      class="absolute -left-8 bottom-32 h-28 w-28 rotate-12 rounded-lg border-4 border-ink bg-cosmic shadow-[6px_6px_0_#1a1a1a]"
     ></div>
     <div
-      class="absolute bottom-0 right-1/4 h-64 w-64 rounded-full bg-cyan-glow/10 blur-[80px]"
+      class="absolute right-1/4 top-1/2 h-24 w-24 -rotate-6 rounded-full border-4 border-ink bg-portal shadow-[6px_6px_0_#1a1a1a]"
     ></div>
     <div
-      class="absolute inset-0 bg-[url('data:image/svg+xml,%3Csvg width=%2260%22 height=%2260%22 viewBox=%220 0 60 60%22 xmlns=%22http://www.w3.org/2000/svg%22%3E%3Cg fill=%22none%22 fill-rule=%22evenodd%22%3E%3Cg fill=%22%2397ce4c%22 fill-opacity=%220.03%22%3E%3Cpath d=%22M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z%22/%3E%3C/g%3E%3C/g%3E%3C/svg%3E')] opacity-60"
-    ></div>
+      class="absolute bottom-8 right-8 font-display text-[8rem] leading-none text-ink/5 select-none"
+    >
+      ?
+    </div>
   </div>
 
+  <!-- Barre de navigation sticky -->
   <header
-    class="sticky top-0 z-50 border-b border-glass-border bg-space/70 backdrop-blur-xl"
+    class="sticky top-0 z-50 border-b-4 border-ink bg-white shadow-[0_6px_0_#1a1a1a]"
   >
     <div
       class="mx-auto flex max-w-6xl flex-wrap items-center justify-between gap-4 px-4 py-4 sm:px-6"
@@ -25,12 +30,12 @@
         class="group flex items-center gap-2.5 no-underline transition-transform hover:scale-[1.02]"
       >
         <span
-          class="flex h-10 w-10 items-center justify-center rounded-xl bg-gradient-to-br from-portal to-cosmic text-xl shadow-lg shadow-portal/30 transition-shadow group-hover:shadow-portal/50"
-          >🛸</span
+          class="flex h-11 w-11 items-center justify-center rounded-lg border-2 border-ink bg-cyan-glow text-2xl shadow-[4px_4px_0_#1a1a1a] transition-shadow group-hover:shadow-[2px_2px_0_#1a1a1a]"
+          >👽</span
         >
-        <span class="font-display text-lg font-semibold tracking-wide text-white sm:text-xl">
+        <span class="font-display text-2xl tracking-wide text-ink sm:text-3xl">
           Rick & Morty
-          <span class="block text-xs font-medium text-portal-bright">Explorer</span>
+          <span class="block text-sm font-sans font-bold text-portal-dark">Explorer</span>
         </span>
       </a>
 
@@ -45,11 +50,12 @@
         <a routerLink="/episodes" routerLinkActive="nav-link-active" class="nav-link"
           >Épisodes</a
         >
+        <!-- Lien favoris avec badge dynamique (signal badgeFavoris) -->
         <a routerLink="/favoris" routerLinkActive="nav-link-active" class="nav-link">
           Favoris
           @if (badgeFavoris()) {
             <span
-              class="min-w-[1.25rem] rounded-full bg-gradient-to-r from-portal to-portal-dark px-1.5 py-0.5 text-center text-[0.65rem] font-bold text-space"
+              class="min-w-[1.25rem] rounded-md border-2 border-ink bg-portal px-1.5 py-0.5 text-center text-[0.65rem] font-bold text-white"
               >{{ badgeFavoris() }}</span
             >
           }
@@ -59,19 +65,20 @@
     </div>
   </header>
 
+  <!-- Zone des pages chargées par le routeur -->
   <main class="mx-auto w-full max-w-6xl flex-1 px-4 py-8 sm:px-6 sm:py-10">
     <router-outlet />
   </main>
 
   <footer
-    class="border-t border-glass-border py-5 text-center text-sm text-slate-500"
+    class="border-t-4 border-ink bg-white py-5 text-center text-sm font-medium text-stone-600"
   >
     API —
     <a
       href="https://rickandmortyapi.com"
       target="_blank"
       rel="noopener"
-      class="font-medium text-portal-bright transition-colors hover:text-cyan-glow"
+      class="font-bold text-portal-dark transition-colors hover:text-cosmic"
       >rickandmortyapi.com</a
     >
   </footer>

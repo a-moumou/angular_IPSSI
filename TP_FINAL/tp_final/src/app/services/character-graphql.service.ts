@@ -1,3 +1,8 @@
+/**
+ * Service GraphQL pour la liste des personnages (variante bonus du TP).
+ * Adapte la réponse GraphQL au format ApiResponse<Character> utilisé par les pages.
+ */
+
 import { Injectable, inject } from '@angular/core';
 import { Apollo } from 'apollo-angular';
 import { Observable, map } from 'rxjs';

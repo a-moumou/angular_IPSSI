@@ -1,3 +1,8 @@
+/**
+ * Pipe « truncate » : raccourcit un texte long avec une ellipse (…).
+ * Paramètre optionnel limit (défaut 50 caractères).
+ */
+
 import { Pipe, PipeTransform } from '@angular/core';
 
 @Pipe({ name: 'truncate', standalone: true })

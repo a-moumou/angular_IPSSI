@@ -1,3 +1,8 @@
+/**
+ * Détail d'un lieu et grille de ses résidents (personnages).
+ * Résout les URLs residents en ids puis appelle CharacterService.getMany.
+ */
+
 import {
   ChangeDetectionStrategy,
   Component,
@@ -30,20 +35,20 @@ import { FavorisService } from '../../services/favoris.service';
         @if (location(); as loc) {
           <div class="mb-8">
             <h1 class="page-title">{{ loc.name }}</h1>
-            <p class="mt-2 text-lg text-slate-400">
+            <p class="mt-2 text-lg text-stone-600">
               {{ loc.type }} · Dimension :
-              <span class="font-medium text-cosmic-light">{{ loc.dimension }}</span>
+              <span class="font-bold text-cosmic">{{ loc.dimension }}</span>
             </p>
           </div>
 
-          <h2 class="mb-5 font-display text-xl font-bold text-white">
+          <h2 class="mb-5 font-display text-2xl text-ink">
             Résidents
-            <span class="text-portal-bright">({{ residents().length }})</span>
+            <span class="text-portal-dark">({{ residents().length }})</span>
           </h2>
           @if (residentsLoading()) {
             <app-loader />
           } @else if (residents().length === 0) {
-            <p class="text-slate-500">Aucun résident connu.</p>
+            <p class="text-stone-600">Aucun résident connu.</p>
           } @else {
             <div
               class="grid grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5"

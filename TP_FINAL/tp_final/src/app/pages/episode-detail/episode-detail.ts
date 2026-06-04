@@ -1,3 +1,8 @@
+/**
+ * Détail d'un épisode et liste des personnages qui y apparaissent.
+ * Charge l'épisode puis résout les URLs characters en personnages complets.
+ */
+
 import {
   ChangeDetectionStrategy,
   Component,
@@ -31,17 +36,17 @@ import { FavorisService } from '../../services/favoris.service';
           <div class="mb-8">
             <span class="badge-pill mb-3">{{ ep.episode }}</span>
             <h1 class="page-title">{{ ep.name }}</h1>
-            <p class="mt-2 text-slate-400">{{ ep.air_date }}</p>
+            <p class="mt-2 text-stone-600">{{ ep.air_date }}</p>
           </div>
 
-          <h2 class="mb-5 font-display text-xl font-bold text-white">
+          <h2 class="mb-5 font-display text-2xl text-ink">
             Personnages
-            <span class="text-portal-bright">({{ characters().length }})</span>
+            <span class="text-portal-dark">({{ characters().length }})</span>
           </h2>
           @if (charactersLoading()) {
             <app-loader />
           } @else if (characters().length === 0) {
-            <p class="text-slate-500">Aucun personnage listé.</p>
+            <p class="text-stone-600">Aucun personnage listé.</p>
           } @else {
             <div
               class="grid grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5"

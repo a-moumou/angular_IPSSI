@@ -1,3 +1,6 @@
+/**
+ * Liste paginée des Digimon avec recherche par nom et favoris.
+ */
 import { afterNextRender, Component, inject, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { RouterLink } from '@angular/router';
@@ -19,9 +22,10 @@ export class DigimonListComponent {
   loading = signal(true);
   error = signal<string | null>(null);
   recherche = signal('');
-  pageCourante = signal(0);
+  pageCourante = signal(0); // Index de page côté API (0-based)
 
   constructor() {
+    // Charge les données uniquement côté navigateur (évite le SSR sans API)
     afterNextRender(() => this.charger());
   }
 

@@ -1,3 +1,6 @@
+/**
+ * Enveloppe générique des réponses paginées de l'API YGOPRODeck.
+ */
 import { Card } from './card.model';
 
 export interface ApiResponse<T> {

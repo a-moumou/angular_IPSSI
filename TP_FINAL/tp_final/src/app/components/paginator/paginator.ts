@@ -1,3 +1,8 @@
+/**
+ * Pagination simple : page courante, total, boutons précédent / suivant.
+ * Le parent gère la logique ; ce composant n'émet que prev et next.
+ */
+
 import { ChangeDetectionStrategy, Component, input, output } from '@angular/core';
 
 @Component({
@@ -17,9 +22,9 @@ import { ChangeDetectionStrategy, Component, input, output } from '@angular/core
         ← Précédent
       </button>
       <span
-        class="rounded-full border border-glass-border bg-glass px-5 py-2 text-sm font-bold text-slate-300 backdrop-blur-sm"
+        class="rounded-lg border-2 border-ink bg-cyan-glow/40 px-5 py-2 text-sm font-bold text-ink shadow-[3px_3px_0_#1a1a1a]"
       >
-        Page <span class="text-portal-bright">{{ currentPage() }}</span> /
+        Page <span class="text-portal-dark">{{ currentPage() }}</span> /
         {{ totalPages() }}
       </span>
       <button

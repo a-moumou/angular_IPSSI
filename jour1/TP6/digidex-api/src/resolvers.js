@@ -1,5 +1,9 @@
+/**
+ * Resolvers GraphQL : appellent le datasource et normalisent la réponse Digimon.
+ */
 import { fetchDigimons, fetchDigimon } from './datasource.js';
 
+/** Transforme le JSON brut de l'API REST en forme attendue par le schéma */
 function mapDigimon(raw) {
   if (!raw) return null;
   return {

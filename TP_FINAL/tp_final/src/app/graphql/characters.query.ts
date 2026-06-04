@@ -1,3 +1,8 @@
+/**
+ * Requête GraphQL et types associés pour la liste des personnages.
+ * Utilisée par CharacterGraphqlService (bonus GraphQL du TP).
+ */
+
 import { gql } from 'apollo-angular';
 
 export interface GraphqlLocationRef {
@@ -30,6 +35,7 @@ export interface GraphqlCharactersResponse {
   };
 }
 
+// Requête GetCharacters : pagination + filtres name et status
 export const GET_CHARACTERS = gql`
   query GetCharacters($page: Int, $name: String, $status: String) {
     characters(page: $page, filter: { name: $name, status: $status }) {

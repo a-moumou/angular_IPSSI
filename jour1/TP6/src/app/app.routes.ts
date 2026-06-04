@@ -1,3 +1,6 @@
+/**
+ * Routes : liste des Digimon et page de détail par id.
+ */
 import { Routes } from '@angular/router';
 import { DigimonListComponent } from './pages/digimon-list/digimon-list.component';
 import { DigimonDetailComponent } from './pages/digimon-detail/digimon-detail.component';

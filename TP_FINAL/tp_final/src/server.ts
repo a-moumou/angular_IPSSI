@@ -1,3 +1,8 @@
+/**
+ * Serveur Express pour le SSR en production.
+ * Sert le build statique puis délègue les requêtes dynamiques au moteur Angular Node.
+ */
+
 import {
   AngularNodeAppEngine,
   createNodeRequestHandler,

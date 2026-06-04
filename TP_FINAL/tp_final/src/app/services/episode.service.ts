@@ -1,3 +1,8 @@
+/**
+ * Service HTTP pour les épisodes (API REST /api/episode).
+ * Même pattern que CharacterService : pagination, détail et chargement multiple.
+ */
+
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
 import { Observable, map, of } from 'rxjs';

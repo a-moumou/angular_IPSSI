@@ -1,3 +1,6 @@
+/**
+ * Composant racine : shell de l'app avec le routeur (liste, détail, deck).
+ */
 import { Component } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 

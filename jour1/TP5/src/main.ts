@@ -1,3 +1,6 @@
+/**
+ * Point d'entrée de l'application Angular côté navigateur (TP5 — cartes Yu-Gi-Oh!).
+ */
 import { bootstrapApplication } from '@angular/platform-browser';
 import { appConfig } from './app/app.config';
 import { App } from './app/app';

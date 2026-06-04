@@ -1,3 +1,6 @@
+/**
+ * Page deck : affiche la collection et des totaux par type (monstres, magies, pièges).
+ */
 import { Component, inject, computed } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { CollectionService } from '../../services/collection.service';

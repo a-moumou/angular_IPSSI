@@ -1,3 +1,6 @@
+/**
+ * Gestion en mémoire des Digimon favoris (toggle par id).
+ */
 import { Injectable, signal, computed } from '@angular/core';
 import { DigimonSummary } from '../models/digimon.model';
 
@@ -7,10 +10,12 @@ export class FavorisService {
 
   favoris = this._favoris.asReadonly();
   nombre = computed(() => this._favoris().length);
+
   estFavori(id: number): boolean {
     return this._favoris().some(d => d.id === id);
   }
 
+  /** Ajoute ou retire un Digimon des favoris */
   toggle(digimon: DigimonSummary) {
     if (this.estFavori(digimon.id)) {
       this._favoris.update(list => list.filter(d => d.id !== digimon.id));

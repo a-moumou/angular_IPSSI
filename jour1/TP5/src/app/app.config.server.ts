@@ -1,3 +1,6 @@
+/**
+ * Configuration serveur : fusion avec la config navigateur pour le SSR.
+ */
 import { mergeApplicationConfig, ApplicationConfig } from '@angular/core';
 import { provideServerRendering, withRoutes } from '@angular/ssr';
 import { appConfig } from './app.config';

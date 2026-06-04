@@ -1,3 +1,8 @@
+/**
+ * Stratégie de rendu SSR par route (prérendu vs serveur à la demande).
+ * Les listes statiques sont prérendues ; les pages dynamiques (:id) en mode Server.
+ */
+
 import { RenderMode, ServerRoute } from '@angular/ssr';
 
 export const serverRoutes: ServerRoute[] = [
@@ -18,6 +23,7 @@ export const serverRoutes: ServerRoute[] = [
     renderMode: RenderMode.Prerender,
   },
   {
+    // Détail : id inconnu au build → rendu côté serveur à chaque requête
     path: 'characters/:id',
     renderMode: RenderMode.Server,
   },

@@ -1,3 +1,8 @@
+/**
+ * Liste paginée des épisodes avec aperçu tronqué du titre (pipe truncate).
+ * Navigation vers episode-detail via routerLink.
+ */
+
 import {
   ChangeDetectionStrategy,
   Component,
@@ -31,14 +36,14 @@ import { TruncatePipe } from '../../pipes/truncate.pipe';
           @for (ep of episodes(); track ep.id) {
             <a [routerLink]="['/episodes', ep.id]" class="list-row flex gap-4 no-underline sm:gap-6">
               <span
-                class="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-gradient-to-br from-cosmic/30 to-portal/20 font-display text-xs font-bold text-portal-bright ring-1 ring-portal/30"
+                class="flex h-12 w-12 shrink-0 items-center justify-center rounded-lg border-2 border-ink bg-cosmic/20 font-display text-xs font-bold text-ink shadow-[3px_3px_0_#1a1a1a]"
                 >{{ ep.episode }}</span
               >
               <div class="min-w-0 flex-1">
-                <h3 class="font-display font-bold text-white">{{ ep.name | truncate:60 }}</h3>
-                <p class="mt-1 text-sm text-slate-500">{{ ep.air_date }}</p>
+                <h3 class="font-display text-lg text-ink">{{ ep.name | truncate:60 }}</h3>
+                <p class="mt-1 text-sm text-stone-600">{{ ep.air_date }}</p>
               </div>
-              <span class="hidden self-center text-portal-bright sm:inline">→</span>
+              <span class="hidden self-center font-bold text-portal-dark sm:inline">→</span>
             </a>
           }
         </div>

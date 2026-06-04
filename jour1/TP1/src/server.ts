@@ -1,3 +1,7 @@
+/**
+ * Serveur Express pour le SSR Angular (TP1).
+ * Sert les fichiers statiques du build navigateur et délègue le reste à Angular.
+ */
 import {
   AngularNodeAppEngine,
   createNodeRequestHandler,
@@ -7,26 +11,24 @@ import {
 import express from 'express';
 import { join } from 'node:path';
 
+// Dossier contenant le build navigateur (fichiers statiques)
 const browserDistFolder = join(import.meta.dirname, '../browser');
 
 const app = express();
 const angularApp = new AngularNodeAppEngine();
 
 /**
- * Example Express Rest API endpoints can be defined here.
- * Uncomment and define endpoints as necessary.
+ * Exemple d'endpoints REST Express — à décommenter si besoin d'une API.
  *
- * Example:
+ * Exemple :
  * ```ts
  * app.get('/api/{*splat}', (req, res) => {
- *   // Handle API request
+ *   // Traiter la requête API
  * });
  * ```
  */
 
-/**
- * Serve static files from /browser
- */
+// Fichiers statiques (JS, CSS, images) depuis le dossier browser
 app.use(
   express.static(browserDistFolder, {
     maxAge: '1y',
@@ -35,9 +37,7 @@ app.use(
   }),
 );
 
-/**
- * Handle all other requests by rendering the Angular application.
- */
+// Toutes les autres requêtes : rendu de l'application Angular
 app.use((req, res, next) => {
   angularApp
     .handle(req)
@@ -47,10 +47,7 @@ app.use((req, res, next) => {
     .catch(next);
 });
 
-/**
- * Start the server if this module is the main entry point, or it is ran via PM2.
- * The server listens on the port defined by the `PORT` environment variable, or defaults to 4000.
- */
+// Démarre le serveur si ce fichier est le point d'entrée (ou via PM2)
 if (isMainModule(import.meta.url) || process.env['pm_id']) {
   const port = process.env['PORT'] || 4000;
   app.listen(port, (error) => {
@@ -62,7 +59,5 @@ if (isMainModule(import.meta.url) || process.env['pm_id']) {
   });
 }
 
-/**
- * Request handler used by the Angular CLI (for dev-server and during build) or Firebase Cloud Functions.
- */
+// Handler exporté pour le CLI Angular ou Firebase Cloud Functions
 export const reqHandler = createNodeRequestHandler(app);

@@ -1,3 +1,6 @@
+/**
+ * État réactif des filtres de recherche (signals) partagé entre les pages.
+ */
 import { Injectable, signal } from '@angular/core';
 import { CardFilters } from '../models';
 
@@ -6,6 +9,7 @@ export class FilterService {
   private _filters = signal<CardFilters>({});
   filters = this._filters.asReadonly();
 
+  // Valeurs proposées dans l'interface
   readonly types = ['Effect Monster', 'Normal Monster', 'Spell Card', 'Trap Card', 'Fusion Monster'];
   readonly attributes = ['DARK', 'LIGHT', 'EARTH', 'WATER', 'FIRE', 'WIND', 'DIVINE'];
 
@@ -21,6 +25,7 @@ export class FilterService {
     this._filters.update(f => ({ ...f, attribute: attribute || undefined }));
   }
 
+  /** Réinitialise tous les filtres */
   reset() {
     this._filters.set({});
   }

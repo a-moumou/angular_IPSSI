@@ -1,3 +1,8 @@
+/**
+ * Gestion des personnages favoris (mémoire + localStorage).
+ * Expose des signals pour le compteur, la liste et la répartition par statut.
+ */
+
 import { Injectable, computed, inject, signal } from '@angular/core';
 import { Character } from '../models/character.model';
 import { StorageService } from './storage.service';
@@ -8,6 +13,7 @@ const STORAGE_KEY = 'rick-morty-favoris';
 export class FavorisService {
   private readonly storage = inject(StorageService);
 
+  // signal : liste réactive des favoris, initialisée depuis le stockage
   readonly favoris = signal<Character[]>(this.loadFromStorage());
 
   readonly nombre = computed(() => this.favoris().length);

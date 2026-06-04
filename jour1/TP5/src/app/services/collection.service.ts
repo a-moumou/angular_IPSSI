@@ -1,3 +1,6 @@
+/**
+ * Deck personnel stocké dans le localStorage (max 3 exemplaires par carte).
+ */
 import { Injectable, signal, computed, effect, inject, PLATFORM_ID } from '@angular/core';
 import { isPlatformBrowser } from '@angular/common';
 import { Card, DeckEntry } from '../models';
@@ -13,6 +16,7 @@ export class CollectionService {
   total = computed(() => this._deck().reduce((acc, e) => acc + e.quantite, 0));
 
   constructor() {
+    // Persiste le deck à chaque modification (uniquement dans le navigateur)
     effect(() => {
       if (isPlatformBrowser(this.platformId)) {
         localStorage.setItem(STORAGE_KEY, JSON.stringify(this._deck()));
@@ -24,6 +28,7 @@ export class CollectionService {
     return this._deck().some(e => e.card.id === id);
   }
 
+  /** Ajoute une carte ou incrémente la quantité (plafond 3) */
   ajouter(card: Card) {
     this._deck.update(deck => {
       const existant = deck.find(e => e.card.id === card.id);

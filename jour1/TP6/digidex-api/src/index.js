@@ -1,3 +1,7 @@
+/**
+ * Point d'entrée du serveur GraphQL Apollo (port 4000).
+ * Agrège le schéma et les resolvers, puis démarre le serveur standalone.
+ */
 import { ApolloServer } from '@apollo/server';
 import { startStandaloneServer } from '@apollo/server/standalone';
 import { typeDefs } from './schema.js';

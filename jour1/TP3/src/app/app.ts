@@ -1,3 +1,7 @@
+/**
+ * Shell de l'application Pokédex : navigation et zone de routage.
+ * Injecte le service favoris pour afficher le compteur dans la barre.
+ */
 import { Component, inject } from '@angular/core';
 import { RouterOutlet, RouterLink, RouterLinkActive } from '@angular/router';
 import { FavorisService } from './services/favoris';
@@ -9,5 +13,5 @@ import { FavorisService } from './services/favoris';
   styleUrl: './app.css',
 })
 export class App {
-  favoris = inject(FavorisService);
+  favoris = inject(FavorisService); // Compteur et état des favoris dans le header
 }

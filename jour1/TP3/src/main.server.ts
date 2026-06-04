@@ -1,3 +1,7 @@
+/**
+ * Point d'entrée SSR pour le TP3 Pokédex.
+ * Bootstrap serveur avec la configuration fusionnée client + serveur.
+ */
 import { BootstrapContext, bootstrapApplication } from '@angular/platform-browser';
 import { App } from './app/app';
 import { config } from './app/app.config.server';

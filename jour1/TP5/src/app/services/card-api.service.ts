@@ -1,3 +1,6 @@
+/**
+ * Appels HTTP vers l'API YGOPRODeck (liste, détail, carte aléatoire).
+ */
 import { Injectable, inject } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { map, Observable } from 'rxjs';
@@ -9,6 +12,7 @@ export class CardApiService {
   private http = inject(HttpClient);
   private base = environment.apiBaseUrl;
 
+  /** Liste paginée avec filtres optionnels */
   getCards(filters: CardFilters = {}, num = 20, offset = 0): Observable<CardResponse> {
     let params = new HttpParams().set('num', num).set('offset', offset);
 
@@ -20,6 +24,7 @@ export class CardApiService {
     return this.http.get<CardResponse>(`${this.base}/cardinfo.php`, { params });
   }
 
+  /** Une carte par son identifiant numérique */
   getCardById(id: number): Observable<Card> {
     const params = new HttpParams().set('id', id);
     return this.http
@@ -27,6 +32,7 @@ export class CardApiService {
       .pipe(map(res => res.data[0]));
   }
 
+  /** Carte tirée au hasard */
   getRandomCard(): Observable<Card> {
     return this.http.get<Card>(`${this.base}/randomcard.php`);
   }

@@ -1,3 +1,6 @@
+/**
+ * Fusion config navigateur + rendu serveur pour le TP6.
+ */
 import { mergeApplicationConfig, ApplicationConfig } from '@angular/core';
 import { provideServerRendering, withRoutes } from '@angular/ssr';
 import { appConfig } from './app.config';

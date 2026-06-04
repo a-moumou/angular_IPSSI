@@ -1,3 +1,6 @@
+/**
+ * Barrel file : réexporte tous les modèles pour des imports simplifiés.
+ */
 export * from './card.model';
 export * from './card-image.model';
 export * from './card-set.model';

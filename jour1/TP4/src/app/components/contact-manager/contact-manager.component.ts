@@ -1,3 +1,6 @@
+/**
+ * Composant principal : liste, ajout, édition et suppression de contacts.
+ */
 import { Component, inject, signal, OnInit } from '@angular/core';
 import { ContactService } from '../../services/contact.service';
 import { Contact, NouveauContact } from '../../models/contact.model';
@@ -14,12 +17,13 @@ export class ContactManagerComponent implements OnInit {
   contacts = signal<Contact[]>([]);
   loading = signal(true);
   error = signal<string | null>(null);
-  enEdition = signal<Contact | null>(null);
+  enEdition = signal<Contact | null>(null); // Contact en cours de modification
 
   ngOnInit() {
     this.charger();
   }
 
+  /** Charge les contacts depuis l'API */
   charger() {
     this.loading.set(true);
     this.error.set(null);
@@ -32,6 +36,7 @@ export class ContactManagerComponent implements OnInit {
     });
   }
 
+  /** Enregistre un nouveau contact ou met à jour celui en édition */
   enregistrer(form: { nom: string; email: string; tel: string }) {
     const enEdition = this.enEdition();
 
@@ -52,14 +57,17 @@ export class ContactManagerComponent implements OnInit {
     }
   }
 
+  /** Passe le formulaire en mode édition pour ce contact */
   editer(contact: Contact) {
     this.enEdition.set(contact);
   }
 
+  /** Quitte le mode édition */
   annulerEdition() {
     this.enEdition.set(null);
   }
 
+  /** Supprime un contact après confirmation */
   supprimer(contact: Contact) {
     if (!confirm(`Supprimer ${contact.nom} ?`)) return;
 

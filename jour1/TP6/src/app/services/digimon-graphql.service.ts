@@ -1,3 +1,6 @@
+/**
+ * Requêtes GraphQL Apollo vers le serveur digidex-api (liste et détail).
+ */
 import { Injectable, inject } from '@angular/core';
 import { Apollo, gql } from 'apollo-angular';
 import { map, Observable } from 'rxjs';
@@ -40,7 +43,7 @@ export class DigimonGraphqlService {
       .query<{ digimons: DigimonPage }>({
         query: LISTE,
         variables: { page, pageSize, name },
-        fetchPolicy: 'network-only',
+        fetchPolicy: 'network-only', // Toujours interroger le réseau
       })
       .pipe(
         map(result => {

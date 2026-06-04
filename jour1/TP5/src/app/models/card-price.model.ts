@@ -1,3 +1,6 @@
+/**
+ * Prix indicatifs de la carte sur différentes plateformes.
+ */
 export interface CardPrice {
   cardmarket_price: string;
   tcgplayer_price: string;

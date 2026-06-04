@@ -1,3 +1,7 @@
+/**
+ * Liste principale des tâches avec filtres et formulaire d'ajout.
+ * Combine le service TaskService et un filtre (toutes / actives / terminées).
+ */
 import { Component, inject } from '@angular/core';
 import { AsyncPipe } from '@angular/common';
 import { BehaviorSubject, combineLatest, map, Observable } from 'rxjs';
@@ -19,6 +23,7 @@ export class TaskList {
   private filterSubject = new BehaviorSubject<Filter>('all');
   filter$ = this.filterSubject.asObservable();
 
+  // Liste filtrée : recalculée à chaque changement de tâches ou de filtre
   filteredTasks$: Observable<Task[]> = combineLatest([
     this.taskService.getTasks(),
     this.filter$,
@@ -30,6 +35,7 @@ export class TaskList {
     })
   );
 
+  // Boutons de filtre affichés dans le template
   filters: { label: string; value: Filter }[] = [
     { label: 'Toutes',    value: 'all' },
     { label: 'Actives',   value: 'active' },

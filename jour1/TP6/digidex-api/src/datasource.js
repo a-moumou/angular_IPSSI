@@ -1,5 +1,9 @@
+/**
+ * Couche d'accès à l'API REST publique digi-api.com (fetch).
+ */
 const BASE = 'https://digi-api.com/api/v1';
 
+/** Liste paginée avec filtre nom optionnel */
 export async function fetchDigimons({ page, pageSize, name }) {
   let url = `${BASE}/digimon?page=${page}&pageSize=${pageSize}`;
   if (name) url += `&name=${encodeURIComponent(name)}`;
@@ -16,6 +20,7 @@ export async function fetchDigimons({ page, pageSize, name }) {
   };
 }
 
+/** Détail par id ou par nom (404 → null) */
 export async function fetchDigimon(idOrName) {
   const res = await fetch(`${BASE}/digimon/${idOrName}`);
   if (res.status === 404) return null;

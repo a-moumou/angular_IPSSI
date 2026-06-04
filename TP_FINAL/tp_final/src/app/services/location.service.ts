@@ -1,3 +1,8 @@
+/**
+ * Service HTTP pour les lieux (API REST /api/location).
+ * Fournit la liste paginée, le détail d'un lieu et le nombre total.
+ */
+
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
 import { Observable, map } from 'rxjs';

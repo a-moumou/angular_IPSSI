@@ -1,3 +1,7 @@
+/**
+ * Pipe « status » : traduit le statut API (Alive, Dead, unknown) en libellé français avec emoji.
+ */
+
 import { Pipe, PipeTransform } from '@angular/core';
 
 @Pipe({ name: 'status', standalone: true })

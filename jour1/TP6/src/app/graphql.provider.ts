@@ -1,9 +1,12 @@
+/**
+ * Factory des options Apollo : lien HTTP vers le serveur GraphQL local.
+ */
 import { inject } from '@angular/core';
 import { APOLLO_OPTIONS } from 'apollo-angular';
 import { HttpLink } from 'apollo-angular/http';
 import { InMemoryCache } from '@apollo/client/core';
 
-const uri = 'http://localhost:4000/';
+const uri = 'http://localhost:4000/'; // API digidex-api
 
 export function provideApollo() {
   return {
@@ -12,7 +15,7 @@ export function provideApollo() {
       const httpLink = inject(HttpLink);
       return {
         link: httpLink.create({ uri }),
-        cache: new InMemoryCache(),
+        cache: new InMemoryCache(), // Cache en mémoire des requêtes
       };
     },
   };

@@ -1,113 +1,131 @@
+/**
+ * Styles globaux de l'application Rick & Morty Explorer.
+ * Définit le thème Tailwind (couleurs, polices), le fond et les classes utilitaires réutilisables.
+ */
+
+/* Import Tailwind v4 et génération des utilitaires */
 @import 'tailwindcss';
 
+/* Variables de design : palette « comic » et animations */
 @theme {
-  --font-sans: 'Nunito', ui-sans-serif, system-ui, sans-serif;
-  --font-display: 'Fredoka', ui-sans-serif, sans-serif;
+  --font-sans: 'DM Sans', ui-sans-serif, system-ui, sans-serif;
+  --font-display: 'Bangers', ui-sans-serif, cursive;
 
-  --color-portal: #97ce4c;
-  --color-portal-bright: #c8f27a;
-  --color-portal-dark: #5a8f24;
-  --color-cosmic: #a855f7;
-  --color-cosmic-light: #c084fc;
-  --color-cyan-glow: #22d3ee;
-  --color-space: #06090f;
-  --color-space-elevated: #0f1623;
-  --color-glass: rgb(255 255 255 / 0.05);
-  --color-glass-border: rgb(255 255 255 / 0.08);
+  --color-portal: #ff3366;
+  --color-portal-bright: #ff6b6b;
+  --color-portal-dark: #c9184a;
+  --color-cosmic: #4361ee;
+  --color-cosmic-light: #4895ef;
+  --color-cyan-glow: #ffd60a;
+  --color-space: #fff8e7;
+  --color-space-elevated: #ffffff;
+  --color-ink: #1a1a1a;
+  --color-glass: #ffffff;
+  --color-glass-border: #1a1a1a;
 
-  --animate-float: float 6s ease-in-out infinite;
-  --animate-pulse-glow: pulse-glow 3s ease-in-out infinite;
+  --animate-float: float 5s ease-in-out infinite;
+  --animate-pulse-glow: pulse-glow 2.5s ease-in-out infinite;
 }
 
+/* Animation des formes décoratives du layout */
 @keyframes float {
   0%,
   100% {
-    transform: translateY(0);
+    transform: translateY(0) rotate(0deg);
   }
   50% {
-    transform: translateY(-12px);
+    transform: translateY(-8px) rotate(2deg);
   }
 }
 
 @keyframes pulse-glow {
   0%,
   100% {
-    opacity: 0.4;
+    opacity: 0.85;
   }
   50% {
-    opacity: 0.75;
+    opacity: 1;
   }
 }
 
+/* Styles de base : fond dégradé et typo sur tout le site */
 @layer base {
   body {
-    @apply min-h-dvh bg-space font-sans text-slate-100 antialiased;
+    @apply min-h-dvh bg-space font-sans text-ink antialiased;
     background-image:
-      radial-gradient(ellipse 80% 50% at 50% -20%, rgb(151 206 76 / 0.12), transparent),
-      radial-gradient(ellipse 60% 40% at 100% 50%, rgb(168 85 247 / 0.08), transparent),
-      radial-gradient(ellipse 50% 30% at 0% 80%, rgb(34 211 238 / 0.06), transparent);
+      repeating-linear-gradient(
+        -42deg,
+        transparent,
+        transparent 18px,
+        rgb(255 51 102 / 0.07) 18px,
+        rgb(255 51 102 / 0.07) 36px
+      ),
+      radial-gradient(circle 280px at 92% 8%, rgb(255 214 10 / 0.45), transparent),
+      radial-gradient(circle 220px at 4% 88%, rgb(67 97 238 / 0.22), transparent),
+      radial-gradient(circle 160px at 50% 50%, rgb(255 107 107 / 0.12), transparent);
   }
 }
 
+/* Composants réutilisables : pages, boutons, cartes, formulaires */
 @layer components {
   .page {
     @apply space-y-6;
   }
 
   .page-title {
-    @apply font-display text-3xl font-bold tracking-wide md:text-4xl;
-    @apply bg-gradient-to-r from-portal-bright via-portal to-cyan-glow bg-clip-text text-transparent;
+    @apply font-display text-4xl font-normal tracking-wider text-ink md:text-5xl;
+    text-shadow: 3px 3px 0 var(--color-cyan-glow);
   }
 
   .page-subtitle {
-    @apply mb-8 text-slate-400;
+    @apply mb-8 text-stone-600;
   }
 
   .badge-pill {
-    @apply inline-flex items-center rounded-full border border-portal/30 bg-portal/10 px-3 py-1 text-xs font-semibold uppercase tracking-wider text-portal-bright;
+    @apply inline-flex items-center rounded-md border-2 border-ink bg-cyan-glow px-3 py-1 text-xs font-bold uppercase tracking-wider text-ink;
   }
 
   .glass-panel {
-    @apply rounded-2xl border border-glass-border bg-glass backdrop-blur-md;
+    @apply rounded-xl border-2 border-ink bg-glass shadow-[6px_6px_0_#1a1a1a];
   }
 
   .btn-primary {
-    @apply inline-flex cursor-pointer items-center justify-center rounded-xl bg-gradient-to-r from-portal to-portal-dark px-5 py-2.5 text-sm font-bold text-space shadow-lg shadow-portal/25 transition-all duration-200 hover:scale-[1.02] hover:shadow-portal/40 active:scale-[0.98] disabled:cursor-not-allowed disabled:opacity-50 disabled:hover:scale-100;
+    @apply inline-flex cursor-pointer items-center justify-center rounded-lg border-2 border-ink bg-portal px-5 py-2.5 text-sm font-bold text-white shadow-[4px_4px_0_#1a1a1a] transition-all duration-150 hover:translate-x-0.5 hover:translate-y-0.5 hover:shadow-[2px_2px_0_#1a1a1a] active:translate-x-1 active:translate-y-1 active:shadow-none disabled:cursor-not-allowed disabled:opacity-50 disabled:hover:translate-x-0 disabled:hover:translate-y-0;
   }
 
   .btn-secondary {
-    @apply inline-flex cursor-pointer items-center justify-center rounded-xl border border-glass-border bg-space-elevated/80 px-5 py-2.5 text-sm font-semibold text-slate-200 backdrop-blur-sm transition-all duration-200 hover:border-portal/50 hover:text-portal-bright disabled:cursor-not-allowed disabled:opacity-50;
+    @apply inline-flex cursor-pointer items-center justify-center rounded-lg border-2 border-ink bg-white px-5 py-2.5 text-sm font-bold text-ink shadow-[4px_4px_0_#1a1a1a] transition-all duration-150 hover:bg-cyan-glow/40 hover:translate-x-0.5 hover:translate-y-0.5 hover:shadow-[2px_2px_0_#1a1a1a] disabled:cursor-not-allowed disabled:opacity-50;
   }
 
   .nav-link {
-    @apply inline-flex items-center gap-1.5 rounded-full px-3.5 py-2 text-sm font-medium text-slate-400 transition-all duration-200 hover:bg-white/5 hover:text-portal-bright sm:px-4;
+    @apply inline-flex items-center gap-1.5 rounded-lg border-2 border-transparent px-3.5 py-2 text-sm font-bold text-stone-600 transition-all duration-150 hover:border-ink hover:bg-white hover:text-ink sm:px-4;
   }
 
   .nav-link-active {
-    @apply bg-portal/15 text-portal-bright ring-1 ring-portal/40 shadow-[0_0_20px_rgb(151_206_76/0.15)];
+    @apply border-ink bg-cyan-glow text-ink shadow-[3px_3px_0_#1a1a1a];
   }
 
   .input-field {
-    @apply w-full rounded-xl border border-glass-border bg-space-elevated/90 px-4 py-2.5 text-slate-100 placeholder-slate-500 outline-none transition-all focus:border-portal/60 focus:ring-2 focus:ring-portal/20;
+    @apply w-full rounded-lg border-2 border-ink bg-white px-4 py-2.5 text-ink placeholder-stone-400 outline-none transition-all focus:bg-cyan-glow/10 focus:ring-2 focus:ring-cosmic/40;
   }
 
   .label-field {
-    @apply text-xs font-semibold uppercase tracking-wider text-slate-500;
+    @apply text-xs font-bold uppercase tracking-wider text-stone-600;
   }
 
   .link-portal {
-    @apply font-medium text-portal-bright underline-offset-4 transition-colors hover:text-cyan-glow hover:underline;
+    @apply font-bold text-portal-dark underline-offset-4 transition-colors hover:text-cosmic hover:underline;
   }
 
   .list-row {
-    @apply block rounded-2xl border border-glass-border bg-glass p-4 backdrop-blur-md transition-all duration-300 hover:-translate-y-0.5 hover:border-portal/40 hover:shadow-[0_8px_32px_rgb(151_206_76/0.08)] sm:p-5;
+    @apply block rounded-xl border-2 border-ink bg-white p-4 shadow-[5px_5px_0_#1a1a1a] transition-all duration-200 hover:-translate-y-1 hover:shadow-[7px_7px_0_#1a1a1a] sm:p-5;
   }
 
   .stat-card {
-    @apply relative overflow-hidden rounded-2xl border border-glass-border bg-glass p-6 text-center backdrop-blur-md transition-transform duration-300 hover:-translate-y-1 hover:border-portal/30;
+    @apply relative overflow-hidden rounded-xl border-2 border-ink bg-white p-6 text-center shadow-[6px_6px_0_#1a1a1a] transition-transform duration-200 hover:-translate-y-1 hover:shadow-[8px_8px_0_#1a1a1a];
   }
 
   .episode-tile {
-    @apply flex flex-col gap-1 rounded-xl border border-glass-border bg-space-elevated/60 p-4 no-underline transition-all duration-200 hover:border-cosmic/50 hover:bg-cosmic/10 hover:shadow-[0_0_24px_rgb(168_85_247/0.12)];
+    @apply flex flex-col gap-1 rounded-lg border-2 border-ink bg-cyan-glow/25 p-4 no-underline shadow-[4px_4px_0_#1a1a1a] transition-all duration-200 hover:-translate-y-0.5 hover:bg-cosmic/15 hover:shadow-[6px_6px_0_#1a1a1a];
   }
 }

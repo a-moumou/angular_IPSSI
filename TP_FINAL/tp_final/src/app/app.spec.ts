@@ -1,3 +1,8 @@
+/**
+ * Tests unitaires du composant racine App.
+ * Vérifie que l'instance se crée correctement via TestBed.
+ */
+
 import { TestBed } from '@angular/core/testing';
 import { App } from './app';
 

@@ -1,3 +1,6 @@
+/**
+ * Schéma GraphQL (SDL) : types Digimon, pagination et requêtes exposées.
+ */
 export const typeDefs = `#graphql
   type Image {
     href: String

@@ -1,3 +1,7 @@
+/**
+ * Fiche détail d'un Pokémon (route /pokemon/:name).
+ * Charge les données via l'API et permet d'ajouter/retirer des favoris.
+ */
 import { Component, inject, input } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { toObservable, toSignal } from '@angular/core/rxjs-interop';
@@ -15,8 +19,9 @@ export class PokemonDetailComponent {
   private api = inject(PokemonApiService);
   favoris = inject(FavorisService);
 
-  name = input.required<string>();
+  name = input.required<string>(); // Lié au paramètre :name grâce à withComponentInputBinding
 
+  // Recharge le Pokémon à chaque changement de nom dans l'URL
   pokemon = toSignal(
     toObservable(this.name).pipe(
       switchMap(n => this.api.getByName(n))

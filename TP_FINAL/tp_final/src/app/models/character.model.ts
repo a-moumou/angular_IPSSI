@@ -1,3 +1,9 @@
+/**
+ * Modèles TypeScript pour les personnages de l'API REST Rick & Morty.
+ * Représentent la structure JSON renvoyée par /api/character.
+ */
+
+/** Origine ou lieu actuel : nom affiché + URL vers la ressource location */
 export interface CharacterOrigin {
   name: string;
   url: string;

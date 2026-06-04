@@ -1,3 +1,6 @@
+/**
+ * Composant racine : navigation et compteur de favoris dans l'en-tête.
+ */
 import { Component, inject } from '@angular/core';
 import { RouterLink, RouterOutlet } from '@angular/router';
 import { FavorisService } from './services/favoris.service';
@@ -10,5 +13,5 @@ import { FavorisService } from './services/favoris.service';
 })
 export class App {
   private favoris = inject(FavorisService);
-  protected favorisCount = this.favoris.nombre;
+  protected favorisCount = this.favoris.nombre; // Signal dérivé affiché dans le template
 }

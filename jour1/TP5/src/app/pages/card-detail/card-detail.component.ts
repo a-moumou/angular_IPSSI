@@ -1,3 +1,6 @@
+/**
+ * Fiche détaillée d'une carte (route :id liée au composant).
+ */
 import { Component, inject, input, signal, OnInit } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { CardApiService } from '../../services/card-api.service';
@@ -13,7 +16,7 @@ export class CardDetailComponent implements OnInit {
   private api = inject(CardApiService);
   protected collection = inject(CollectionService);
 
-  id = input.required<string>();
+  id = input.required<string>(); // Provient du paramètre de route
 
   card = signal<Card | null>(null);
   loading = signal(true);

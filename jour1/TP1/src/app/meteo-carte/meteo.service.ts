@@ -1,3 +1,7 @@
+/**
+ * Service météo : géocodage d'une ville puis récupération des données Open-Meteo.
+ * Transforme les codes météo API en libellés français lisibles.
+ */
 import { Injectable, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { switchMap, map } from 'rxjs/operators';
@@ -6,6 +10,7 @@ import { switchMap, map } from 'rxjs/operators';
 export class MeteoService {
   private http = inject(HttpClient);
 
+  // Recherche une ville, puis charge la météo actuelle à ses coordonnées
   chercher(nom: string) {
     return this.http
       .get<any>(`https://geocoding-api.open-meteo.com/v1/search?name=${encodeURIComponent(nom)}&count=1&language=fr`)
@@ -27,6 +32,7 @@ export class MeteoService {
       );
   }
 
+  // Convertit le code WMO de l'API en libellé français pour l'affichage
   private codeVersCondition(code: number) {
     if (code === 0) return 'Ensoleillé';
     if (code <= 2)  return 'Peu nuageux';

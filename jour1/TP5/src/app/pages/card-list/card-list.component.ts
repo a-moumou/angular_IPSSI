@@ -1,3 +1,6 @@
+/**
+ * Page catalogue : recherche, filtres, pagination et grille de cartes.
+ */
 import { Component, inject, signal, computed, OnInit } from '@angular/core';
 import { DecimalPipe } from '@angular/common';
 import { FormsModule } from '@angular/forms';
@@ -51,6 +54,7 @@ export class CardListComponent implements OnInit {
 
   ngOnInit() { this.charger(); }
 
+  /** Charge la page courante depuis l'API */
   charger() {
     this.loading.set(true);
     this.error.set(null);

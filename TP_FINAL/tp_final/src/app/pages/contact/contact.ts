@@ -1,3 +1,8 @@
+/**
+ * Page contact avec formulaire réactif (ReactiveFormsModule).
+ * Validation nom, email et message ; envoi simulé côté client uniquement.
+ */
+
 import { ChangeDetectionStrategy, Component, inject, signal } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 
@@ -12,7 +17,7 @@ import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 
       @if (submitted()) {
         <div
-          class="mb-6 rounded-2xl border border-emerald-500/40 bg-emerald-500/10 px-5 py-4 text-emerald-300"
+          class="mb-6 rounded-lg border-2 border-ink bg-emerald-100 px-5 py-4 font-bold text-emerald-800 shadow-[4px_4px_0_#1a1a1a]"
           role="status"
         >
           Merci ! Votre message a bien été envoyé (simulation).
@@ -28,10 +33,10 @@ import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
           <label for="nom" class="label-field">Nom</label>
           <input id="nom" type="text" formControlName="nom" class="input-field" />
           @if (form.controls.nom.touched && form.controls.nom.errors?.['required']) {
-            <span class="text-sm text-red-400">Le nom est obligatoire.</span>
+            <span class="text-sm text-red-700">Le nom est obligatoire.</span>
           }
           @if (form.controls.nom.touched && form.controls.nom.errors?.['minlength']) {
-            <span class="text-sm text-red-400">Minimum 3 caractères.</span>
+            <span class="text-sm text-red-700">Minimum 3 caractères.</span>
           }
         </div>
 
@@ -39,10 +44,10 @@ import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
           <label for="email" class="label-field">Email</label>
           <input id="email" type="email" formControlName="email" class="input-field" />
           @if (form.controls.email.touched && form.controls.email.errors?.['required']) {
-            <span class="text-sm text-red-400">L'email est obligatoire.</span>
+            <span class="text-sm text-red-700">L'email est obligatoire.</span>
           }
           @if (form.controls.email.touched && form.controls.email.errors?.['email']) {
-            <span class="text-sm text-red-400">Format d'email invalide.</span>
+            <span class="text-sm text-red-700">Format d'email invalide.</span>
           }
         </div>
 
@@ -55,10 +60,10 @@ import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
             class="input-field resize-y"
           ></textarea>
           @if (form.controls.message.touched && form.controls.message.errors?.['required']) {
-            <span class="text-sm text-red-400">Le message est obligatoire.</span>
+            <span class="text-sm text-red-700">Le message est obligatoire.</span>
           }
           @if (form.controls.message.touched && form.controls.message.errors?.['minlength']) {
-            <span class="text-sm text-red-400">Minimum 10 caractères.</span>
+            <span class="text-sm text-red-700">Minimum 10 caractères.</span>
           }
         </div>
 

@@ -1,5 +1,11 @@
+/**
+ * Service HTTP pour les personnages (API REST Rick & Morty).
+ * Liste paginée, détail, chargement groupé par ids et compteur total.
+ */
+
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
+// Observable : flux asynchrone ; map : transforme la réponse ; of : valeur immédiate
 import { Observable, map, of } from 'rxjs';
 import { ApiResponse } from '../models/api-response.model';
 import { Character } from '../models/character.model';
@@ -35,6 +41,7 @@ export class CharacterService {
     }
     const idList = ids.join(',');
     return this.http.get<Character[] | Character>(`${API_URL}/${idList}`).pipe(
+      // L'API renvoie un objet seul ou un tableau selon le nombre d'ids
       map((data) => (Array.isArray(data) ? data : [data])),
     );
   }

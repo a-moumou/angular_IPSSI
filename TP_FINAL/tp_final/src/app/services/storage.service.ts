@@ -1,3 +1,8 @@
+/**
+ * Accès sécurisé au localStorage (uniquement dans le navigateur).
+ * Évite les erreurs SSR quand window/localStorage n'existent pas côté serveur.
+ */
+
 import { Injectable, PLATFORM_ID, inject } from '@angular/core';
 import { isPlatformBrowser } from '@angular/common';
 

@@ -1,3 +1,6 @@
+/**
+ * Page détail d'un Digimon : évolutions, attributs, descriptions.
+ */
 import { afterNextRender, Component, inject, input, signal } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { DigimonGraphqlService } from '../../services/digimon-graphql.service';

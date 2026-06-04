@@ -1,3 +1,8 @@
+/**
+ * Liste des personnages via GraphQL (recherche, filtre statut, pagination).
+ * Pipeline RxJS : debounce, distinctUntilChanged, switchMap pour éviter les courses.
+ */
+
 import {
   ChangeDetectionStrategy,
   Component,
@@ -47,6 +52,7 @@ import { ErrorMessageComponent } from '../../components/error-message/error-mess
         </div>
       </div>
 
+      <!-- Filtres : recherche par nom + select statut -->
       <div
         class="glass-panel mb-8 flex flex-wrap items-end gap-4 p-4 sm:gap-6 sm:p-5"
       >
@@ -73,7 +79,7 @@ import { ErrorMessageComponent } from '../../components/error-message/error-mess
         <app-error-message [message]="error()!" (retry)="reload()" />
       } @else {
         @if (characters().length === 0) {
-          <p class="rounded-2xl border border-dashed border-glass-border py-16 text-center text-slate-500">
+          <p class="rounded-xl border-2 border-dashed border-ink bg-white/60 py-16 text-center text-stone-600">
             Aucun personnage trouvé dans cette dimension.
           </p>
         } @else {

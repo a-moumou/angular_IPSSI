@@ -1,3 +1,8 @@
+/**
+ * Page des favoris stockés localement (FavorisService + localStorage).
+ * Affiche une grille de cartes ou un message vide avec lien vers les personnages.
+ */
+
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { FavorisService } from '../../services/favoris.service';
@@ -16,11 +21,12 @@ import { Character } from '../../models/character.model';
       </p>
 
       @if (favoris().length === 0) {
+        <!-- État vide : invitation à parcourir le catalogue -->
         <div
           class="glass-panel flex flex-col items-center gap-4 py-16 text-center"
         >
           <span class="text-5xl opacity-60">☆</span>
-          <p class="text-slate-400">Aucun favori pour le moment.</p>
+          <p class="text-stone-600">Aucun favori pour le moment.</p>
           <a routerLink="/characters" class="btn-primary no-underline"
             >Parcourir les personnages</a
           >

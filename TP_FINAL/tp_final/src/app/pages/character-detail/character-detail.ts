@@ -1,3 +1,8 @@
+/**
+ * Fiche détail d'un personnage (route characters/:id).
+ * Charge le personnage REST puis ses épisodes ; liens vers lieux et favoris.
+ */
+
 import {
   ChangeDetectionStrategy,
   Component,
@@ -33,15 +38,15 @@ import { StatusPipe } from '../../pipes/status.pipe';
             <img
               [src]="c.image"
               [alt]="c.name"
-              class="h-56 w-56 shrink-0 rounded-2xl border-2 border-portal/30 object-cover shadow-[0_0_40px_rgb(151_206_76/0.2)] sm:h-64 sm:w-64"
+              class="h-56 w-56 shrink-0 rounded-xl border-2 border-ink object-cover shadow-[6px_6px_0_#1a1a1a] sm:h-64 sm:w-64"
             />
             <div class="min-w-0 flex-1">
               <h1 class="page-title mb-3">{{ c.name }}</h1>
-              <p class="mb-4 text-lg text-slate-300">
+              <p class="mb-4 text-lg text-stone-700">
                 {{ c.status | status }} · {{ c.species }} · {{ c.gender }}
               </p>
-              <p class="mb-6 text-slate-400">
-                <span class="font-semibold text-slate-300">Type :</span>
+              <p class="mb-6 text-stone-600">
+                <span class="font-bold text-ink">Type :</span>
                 {{ c.type || '—' }}
               </p>
               <button type="button" class="btn-primary" (click)="toggleFavori()">
@@ -52,12 +57,12 @@ import { StatusPipe } from '../../pipes/status.pipe';
 
           <div class="space-y-8">
             <div class="glass-panel p-6 sm:p-8">
-              <h2 class="mb-4 font-display text-xl font-bold text-white">
+              <h2 class="mb-4 font-display text-2xl text-ink">
                 Origine & lieu actuel
               </h2>
-              <ul class="space-y-3 text-slate-300">
+              <ul class="space-y-3 text-stone-700">
                 <li class="flex flex-wrap gap-2">
-                  <span class="font-semibold text-slate-400">Origine :</span>
+                  <span class="font-bold text-stone-600">Origine :</span>
                   @if (originLocationId(); as locId) {
                     <a [routerLink]="['/locations', locId]" class="link-portal">{{ c.origin.name }}</a>
                   } @else {
@@ -65,7 +70,7 @@ import { StatusPipe } from '../../pipes/status.pipe';
                   }
                 </li>
                 <li class="flex flex-wrap gap-2">
-                  <span class="font-semibold text-slate-400">Lieu actuel :</span>
+                  <span class="font-bold text-stone-600">Lieu actuel :</span>
                   @if (currentLocationId(); as locId) {
                     <a [routerLink]="['/locations', locId]" class="link-portal">{{ c.location.name }}</a>
                   } @else {
@@ -76,9 +81,9 @@ import { StatusPipe } from '../../pipes/status.pipe';
             </div>
 
             <div>
-              <h2 class="mb-4 font-display text-xl font-bold text-white">
+              <h2 class="mb-4 font-display text-2xl text-ink">
                 Épisodes
-                <span class="ml-2 text-base font-normal text-portal-bright"
+                <span class="ml-2 text-base font-sans font-bold text-portal-dark"
                   >({{ episodes().length }})</span
                 >
               </h2>
@@ -87,9 +92,9 @@ import { StatusPipe } from '../../pipes/status.pipe';
               } @else {
                 <div class="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
                   @for (ep of episodes(); track ep.id) {
-                    <a [routerLink]="['/episodes', ep.id]" class="episode-tile text-white">
-                      <strong class="text-sm font-bold text-portal-bright">{{ ep.episode }}</strong>
-                      <span class="text-sm text-slate-400">{{ ep.name }}</span>
+                    <a [routerLink]="['/episodes', ep.id]" class="episode-tile text-ink">
+                      <strong class="text-sm font-bold text-portal-dark">{{ ep.episode }}</strong>
+                      <span class="text-sm text-stone-600">{{ ep.name }}</span>
                     </a>
                   }
                 </div>
@@ -102,6 +107,7 @@ import { StatusPipe } from '../../pipes/status.pipe';
   `,
 })
 export class CharacterDetail implements OnInit {
+  // Paramètre de route lié via withComponentInputBinding
   readonly id = input.required<string>();
 
   private readonly characterService = inject(CharacterService);

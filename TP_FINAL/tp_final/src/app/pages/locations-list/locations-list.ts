@@ -1,3 +1,8 @@
+/**
+ * Liste paginée des lieux (dimensions, planètes).
+ * Chaque ligne mène vers la page de détail locations/:id.
+ */
+
 import {
   ChangeDetectionStrategy,
   Component,
@@ -30,10 +35,10 @@ import { ErrorMessageComponent } from '../../components/error-message/error-mess
           @for (loc of locations(); track loc.id) {
             <a [routerLink]="['/locations', loc.id]" class="list-row no-underline">
               <div class="flex flex-wrap items-start justify-between gap-2">
-                <h3 class="font-display text-lg font-bold text-white">{{ loc.name }}</h3>
+                <h3 class="font-display text-xl text-ink">{{ loc.name }}</h3>
                 <span class="badge-pill text-[0.65rem]">{{ loc.residents.length }} résidents</span>
               </div>
-              <p class="mt-1 text-sm text-slate-400">{{ loc.type }} · {{ loc.dimension }}</p>
+              <p class="mt-1 text-sm text-stone-600">{{ loc.type }} · {{ loc.dimension }}</p>
             </a>
           }
         </div>

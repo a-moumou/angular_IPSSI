@@ -1,3 +1,8 @@
+/**
+ * Page tableau de bord : compteurs API (personnages, lieux, épisodes) et stats favoris.
+ * Agrège trois appels REST en parallèle et affiche la répartition par statut.
+ */
+
 import {
   ChangeDetectionStrategy,
   Component,
@@ -26,69 +31,70 @@ import { ErrorMessageComponent } from '../../components/error-message/error-mess
       } @else if (error()) {
         <app-error-message [message]="error()!" (retry)="loadStats()" />
       } @else {
+        <!-- Grille des 4 indicateurs principaux -->
         <div class="grid grid-cols-2 gap-4 lg:grid-cols-4">
           <div class="stat-card group">
             <span class="relative font-display text-4xl font-extrabold text-portal-bright">{{
               totalCharacters()
             }}</span>
-            <span class="relative mt-2 block text-sm font-medium text-slate-400">Personnages</span>
+            <span class="relative mt-2 block text-sm font-bold text-stone-600">Personnages</span>
           </div>
           <div class="stat-card">
             <span class="relative font-display text-4xl font-extrabold text-cosmic-light">{{
               totalLocations()
             }}</span>
-            <span class="relative mt-2 block text-sm font-medium text-slate-400">Lieux</span>
+            <span class="relative mt-2 block text-sm font-medium text-stone-600">Lieux</span>
           </div>
           <div class="stat-card">
             <span class="relative font-display text-4xl font-extrabold text-cyan-glow">{{
               totalEpisodes()
             }}</span>
-            <span class="relative mt-2 block text-sm font-medium text-slate-400">Épisodes</span>
+            <span class="relative mt-2 block text-sm font-medium text-stone-600">Épisodes</span>
           </div>
           <div
-            class="stat-card border-portal/40 bg-gradient-to-br from-portal/10 to-cosmic/10 ring-1 ring-portal/30"
+            class="stat-card bg-cyan-glow/30"
           >
             <span class="relative font-display text-4xl font-extrabold text-amber-400">{{
               nombreFavoris()
             }}</span>
-            <span class="relative mt-2 block text-sm font-medium text-slate-400">Favoris ⭐</span>
+            <span class="relative mt-2 block text-sm font-medium text-stone-600">Favoris ⭐</span>
           </div>
         </div>
 
         <div class="glass-panel mt-8 p-6 sm:p-8">
-          <h2 class="mb-4 font-display text-xl font-bold text-white">
+          <h2 class="mb-4 font-display text-2xl text-ink">
             Répartition des favoris par statut
           </h2>
           <div class="grid gap-3 sm:grid-cols-3">
             <div
-              class="flex items-center gap-3 rounded-xl border border-emerald-500/20 bg-emerald-500/10 px-4 py-3"
+              class="flex items-center gap-3 rounded-lg border-2 border-ink bg-emerald-100 px-4 py-3 shadow-[3px_3px_0_#1a1a1a]"
             >
               <span class="text-2xl">🟢</span>
               <div>
-                <p class="text-xs uppercase tracking-wider text-slate-500">Vivants</p>
-                <p class="font-display text-2xl font-bold text-emerald-400">
+                <p class="text-xs font-bold uppercase tracking-wider text-stone-600">Vivants</p>
+                <p class="font-display text-2xl text-emerald-700">
                   {{ repartition().Alive }}
                 </p>
               </div>
             </div>
             <div
-              class="flex items-center gap-3 rounded-xl border border-red-500/20 bg-red-500/10 px-4 py-3"
+              class="flex items-center gap-3 rounded-lg border-2 border-ink bg-red-100 px-4 py-3 shadow-[3px_3px_0_#1a1a1a]"
             >
               <span class="text-2xl">🔴</span>
               <div>
-                <p class="text-xs uppercase tracking-wider text-slate-500">Morts</p>
-                <p class="font-display text-2xl font-bold text-red-400">
+                <p class="text-xs font-bold uppercase tracking-wider text-stone-600">Morts</p>
+                <p class="font-display text-2xl text-red-700">
                   {{ repartition().Dead }}
                 </p>
               </div>
             </div>
             <div
-              class="flex items-center gap-3 rounded-xl border border-slate-500/20 bg-slate-500/10 px-4 py-3"
+              class="flex items-center gap-3 rounded-lg border-2 border-ink bg-stone-100 px-4 py-3 shadow-[3px_3px_0_#1a1a1a]"
             >
               <span class="text-2xl">⚪</span>
               <div>
-                <p class="text-xs uppercase tracking-wider text-slate-500">Inconnus</p>
-                <p class="font-display text-2xl font-bold text-slate-300">
+                <p class="text-xs font-bold uppercase tracking-wider text-stone-600">Inconnus</p>
+                <p class="font-display text-2xl text-stone-700">
                   {{ repartition().unknown }}
                 </p>
               </div>
