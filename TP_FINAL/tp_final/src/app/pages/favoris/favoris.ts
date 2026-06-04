@@ -10,44 +10,29 @@ import { Character } from '../../models/character.model';
   imports: [RouterLink, CharacterCardComponent],
   template: `
     <section class="page">
-      <h1>Mes favoris ⭐</h1>
-      <p class="subtitle">{{ nombre() }} personnage(s) en favori — persistés dans le navigateur</p>
+      <h1 class="page-title">Mes favoris ⭐</h1>
+      <p class="page-subtitle">
+        {{ nombre() }} personnage(s) — sauvegardés dans ton navigateur
+      </p>
 
       @if (favoris().length === 0) {
-        <p class="empty">
-          Aucun favori pour le moment.
-          <a routerLink="/characters">Parcourir les personnages</a>
-        </p>
+        <div
+          class="glass-panel flex flex-col items-center gap-4 py-16 text-center"
+        >
+          <span class="text-5xl opacity-60">☆</span>
+          <p class="text-slate-400">Aucun favori pour le moment.</p>
+          <a routerLink="/characters" class="btn-primary no-underline"
+            >Parcourir les personnages</a
+          >
+        </div>
       } @else {
-        <div class="grid">
+        <div class="grid grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5">
           @for (c of favoris(); track c.id) {
-            <app-character-card
-              [character]="c"
-              (toggleFavori)="onToggle($event)"
-            />
+            <app-character-card [character]="c" (toggleFavori)="onToggle($event)" />
           }
         </div>
       }
     </section>
-  `,
-  styles: `
-    .subtitle {
-      color: var(--text-muted);
-      margin-bottom: 1.5rem;
-    }
-    .grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-      gap: 1.25rem;
-    }
-    .empty {
-      text-align: center;
-      padding: 2rem;
-      color: var(--text-muted);
-    }
-    .empty a {
-      color: var(--accent);
-    }
   `,
 })
 export class Favoris {

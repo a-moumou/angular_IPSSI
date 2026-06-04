@@ -75,8 +75,23 @@
 }
 
 .dex-search__icon {
-  color: var(--cyan);
-  font-size: 1.1rem;
+  width: 18px;
+  height: 18px;
+  border: 2px solid var(--cyan);
+  border-radius: 50%;
+  position: relative;
+  flex-shrink: 0;
+}
+
+.dex-search__icon::after {
+  content: '';
+  position: absolute;
+  width: 2px;
+  height: 8px;
+  background: var(--cyan);
+  bottom: -6px;
+  right: -2px;
+  transform: rotate(-45deg);
 }
 
 .dex-search__input {
@@ -167,10 +182,22 @@
   border-radius: 50%;
   background: rgba(5, 10, 20, 0.8);
   border: 1px solid var(--border);
-  color: var(--gold);
-  font-size: 1.1rem;
   display: grid;
   place-items: center;
+}
+
+.dex-card__fav::before {
+  content: '';
+  width: 14px;
+  height: 14px;
+  border: 2px solid var(--text-muted);
+  transform: rotate(45deg);
+  transition: border-color 0.2s, background 0.2s;
+}
+
+.dex-card__fav--on::before {
+  border-color: var(--gold);
+  background: var(--gold);
 }
 
 .dex-card__fav:hover {

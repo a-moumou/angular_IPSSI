@@ -16,79 +16,49 @@ import { StatusPipe } from '../../pipes/status.pipe';
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [RouterLink, StatusPipe],
   template: `
-    <article class="card">
-      <img [src]="character().image" [alt]="character().name" loading="lazy" />
-      <div class="card-body">
-        <h3>
-          <a [routerLink]="['/characters', character().id]">{{ character().name }}</a>
-        </h3>
-        <p class="meta">{{ character().status | status }} · {{ character().species }}</p>
+    <article
+      class="group relative overflow-hidden rounded-2xl border border-glass-border bg-glass backdrop-blur-md transition-all duration-300 hover:-translate-y-1 hover:border-portal/50 hover:shadow-[0_12px_40px_rgb(151_206_76/0.12)]"
+    >
+      <div
+        class="absolute inset-x-0 top-0 h-1 bg-gradient-to-r from-portal via-cosmic to-cyan-glow opacity-0 transition-opacity duration-300 group-hover:opacity-100"
+      ></div>
+      <div class="relative aspect-square overflow-hidden">
+        <img
+          [src]="character().image"
+          [alt]="character().name"
+          loading="lazy"
+          class="h-full w-full object-cover transition-transform duration-500 group-hover:scale-110"
+        />
+        <div
+          class="absolute inset-0 bg-gradient-to-t from-space via-transparent to-transparent opacity-80"
+        ></div>
         <button
           type="button"
-          class="fav-btn"
-          [class.active]="isFavori()"
+          class="absolute right-3 top-3 flex h-10 w-10 items-center justify-center rounded-full border border-glass-border bg-space/80 text-xl backdrop-blur-md transition-all hover:scale-110 hover:border-portal/60"
+          [class]="
+            isFavori()
+              ? 'text-amber-400 shadow-[0_0_20px_rgb(251_191_36/0.4)]'
+              : 'text-slate-400 hover:text-amber-300'
+          "
           [attr.aria-label]="isFavori() ? 'Retirer des favoris' : 'Ajouter aux favoris'"
           (click)="toggleFavori.emit(character())"
         >
           {{ isFavori() ? '★' : '☆' }}
         </button>
       </div>
+      <div class="relative p-4">
+        <h3 class="mb-1 font-display text-lg font-bold leading-tight">
+          <a
+            [routerLink]="['/characters', character().id]"
+            class="text-white no-underline transition-colors hover:text-portal-bright"
+            >{{ character().name }}</a
+          >
+        </h3>
+        <p class="text-sm text-slate-400">
+          {{ character().status | status }} · {{ character().species }}
+        </p>
+      </div>
     </article>
-  `,
-  styles: `
-    .card {
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: var(--radius);
-      overflow: hidden;
-      transition: transform 0.2s, box-shadow 0.2s;
-      position: relative;
-    }
-    .card:hover {
-      transform: translateY(-2px);
-      box-shadow: var(--shadow);
-    }
-    img {
-      width: 100%;
-      aspect-ratio: 1;
-      object-fit: cover;
-    }
-    .card-body {
-      padding: 1rem;
-    }
-    h3 {
-      margin: 0 0 0.35rem;
-      font-size: 1.1rem;
-    }
-    h3 a {
-      color: var(--text);
-      text-decoration: none;
-    }
-    h3 a:hover {
-      color: var(--accent);
-    }
-    .meta {
-      margin: 0;
-      font-size: 0.9rem;
-      color: var(--text-muted);
-    }
-    .fav-btn {
-      position: absolute;
-      top: 0.75rem;
-      right: 0.75rem;
-      width: 2.25rem;
-      height: 2.25rem;
-      border: none;
-      border-radius: 50%;
-      background: var(--surface);
-      font-size: 1.25rem;
-      cursor: pointer;
-      box-shadow: var(--shadow);
-      line-height: 1;
-    }
-    .fav-btn.active {
-      color: #f5c518;
-    }
   `,
 })
 export class CharacterCardComponent {

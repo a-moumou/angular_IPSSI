@@ -19,21 +19,26 @@ import { TruncatePipe } from '../../pipes/truncate.pipe';
   imports: [RouterLink, PaginatorComponent, LoaderComponent, ErrorMessageComponent, TruncatePipe],
   template: `
     <section class="page">
-      <h1>Épisodes</h1>
+      <h1 class="page-title">Épisodes</h1>
+      <p class="page-subtitle">Toutes les aventures interdimensionnelles</p>
 
       @if (loading()) {
         <app-loader />
       } @else if (error()) {
         <app-error-message [message]="error()!" (retry)="load()" />
       } @else {
-        <div class="list">
+        <div class="flex flex-col gap-3">
           @for (ep of episodes(); track ep.id) {
-            <a class="list-item" [routerLink]="['/episodes', ep.id]">
-              <span class="code">{{ ep.episode }}</span>
-              <div>
-                <h3>{{ ep.name | truncate:60 }}</h3>
-                <p>{{ ep.air_date }}</p>
+            <a [routerLink]="['/episodes', ep.id]" class="list-row flex gap-4 no-underline sm:gap-6">
+              <span
+                class="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-gradient-to-br from-cosmic/30 to-portal/20 font-display text-xs font-bold text-portal-bright ring-1 ring-portal/30"
+                >{{ ep.episode }}</span
+              >
+              <div class="min-w-0 flex-1">
+                <h3 class="font-display font-bold text-white">{{ ep.name | truncate:60 }}</h3>
+                <p class="mt-1 text-sm text-slate-500">{{ ep.air_date }}</p>
               </div>
+              <span class="hidden self-center text-portal-bright sm:inline">→</span>
             </a>
           }
         </div>
@@ -45,42 +50,6 @@ import { TruncatePipe } from '../../pipes/truncate.pipe';
         />
       }
     </section>
-  `,
-  styles: `
-    .list {
-      display: flex;
-      flex-direction: column;
-      gap: 0.75rem;
-    }
-    .list-item {
-      display: flex;
-      gap: 1rem;
-      align-items: center;
-      padding: 1rem 1.25rem;
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: var(--radius);
-      text-decoration: none;
-      color: var(--text);
-      transition: border-color 0.2s;
-    }
-    .list-item:hover {
-      border-color: var(--accent);
-    }
-    .code {
-      font-weight: 700;
-      color: var(--accent);
-      min-width: 4rem;
-    }
-    .list-item h3 {
-      margin: 0 0 0.25rem;
-      font-size: 1rem;
-    }
-    .list-item p {
-      margin: 0;
-      font-size: 0.85rem;
-      color: var(--text-muted);
-    }
   `,
 })
 export class EpisodesList implements OnInit {

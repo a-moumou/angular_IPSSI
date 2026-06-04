@@ -18,91 +18,85 @@ import { ErrorMessageComponent } from '../../components/error-message/error-mess
   imports: [LoaderComponent, ErrorMessageComponent],
   template: `
     <section class="page">
-      <h1>Tableau de bord</h1>
-      <p class="subtitle">Statistiques de l'univers Rick & Morty</p>
+      <h1 class="page-title">Tableau de bord</h1>
+      <p class="page-subtitle">Statistiques de l'univers Rick & Morty</p>
 
       @if (loading()) {
         <app-loader />
       } @else if (error()) {
         <app-error-message [message]="error()!" (retry)="loadStats()" />
       } @else {
-        <div class="stats-grid">
-          <div class="stat-card">
-            <span class="stat-value">{{ totalCharacters() }}</span>
-            <span class="stat-label">Personnages</span>
+        <div class="grid grid-cols-2 gap-4 lg:grid-cols-4">
+          <div class="stat-card group">
+            <span class="relative font-display text-4xl font-extrabold text-portal-bright">{{
+              totalCharacters()
+            }}</span>
+            <span class="relative mt-2 block text-sm font-medium text-slate-400">Personnages</span>
           </div>
           <div class="stat-card">
-            <span class="stat-value">{{ totalLocations() }}</span>
-            <span class="stat-label">Lieux</span>
+            <span class="relative font-display text-4xl font-extrabold text-cosmic-light">{{
+              totalLocations()
+            }}</span>
+            <span class="relative mt-2 block text-sm font-medium text-slate-400">Lieux</span>
           </div>
           <div class="stat-card">
-            <span class="stat-value">{{ totalEpisodes() }}</span>
-            <span class="stat-label">Épisodes</span>
+            <span class="relative font-display text-4xl font-extrabold text-cyan-glow">{{
+              totalEpisodes()
+            }}</span>
+            <span class="relative mt-2 block text-sm font-medium text-slate-400">Épisodes</span>
           </div>
-          <div class="stat-card accent">
-            <span class="stat-value">{{ nombreFavoris() }}</span>
-            <span class="stat-label">Favoris ⭐</span>
+          <div
+            class="stat-card border-portal/40 bg-gradient-to-br from-portal/10 to-cosmic/10 ring-1 ring-portal/30"
+          >
+            <span class="relative font-display text-4xl font-extrabold text-amber-400">{{
+              nombreFavoris()
+            }}</span>
+            <span class="relative mt-2 block text-sm font-medium text-slate-400">Favoris ⭐</span>
           </div>
         </div>
 
-        <div class="favoris-stats">
-          <h2>Répartition des favoris par statut</h2>
-          <ul>
-            <li>🟢 Vivants : {{ repartition().Alive }}</li>
-            <li>🔴 Morts : {{ repartition().Dead }}</li>
-            <li>⚪ Inconnus : {{ repartition().unknown }}</li>
-          </ul>
+        <div class="glass-panel mt-8 p-6 sm:p-8">
+          <h2 class="mb-4 font-display text-xl font-bold text-white">
+            Répartition des favoris par statut
+          </h2>
+          <div class="grid gap-3 sm:grid-cols-3">
+            <div
+              class="flex items-center gap-3 rounded-xl border border-emerald-500/20 bg-emerald-500/10 px-4 py-3"
+            >
+              <span class="text-2xl">🟢</span>
+              <div>
+                <p class="text-xs uppercase tracking-wider text-slate-500">Vivants</p>
+                <p class="font-display text-2xl font-bold text-emerald-400">
+                  {{ repartition().Alive }}
+                </p>
+              </div>
+            </div>
+            <div
+              class="flex items-center gap-3 rounded-xl border border-red-500/20 bg-red-500/10 px-4 py-3"
+            >
+              <span class="text-2xl">🔴</span>
+              <div>
+                <p class="text-xs uppercase tracking-wider text-slate-500">Morts</p>
+                <p class="font-display text-2xl font-bold text-red-400">
+                  {{ repartition().Dead }}
+                </p>
+              </div>
+            </div>
+            <div
+              class="flex items-center gap-3 rounded-xl border border-slate-500/20 bg-slate-500/10 px-4 py-3"
+            >
+              <span class="text-2xl">⚪</span>
+              <div>
+                <p class="text-xs uppercase tracking-wider text-slate-500">Inconnus</p>
+                <p class="font-display text-2xl font-bold text-slate-300">
+                  {{ repartition().unknown }}
+                </p>
+              </div>
+            </div>
+          </div>
         </div>
       }
     </section>
-  `,
-  styles: `
-    .subtitle {
-      color: var(--text-muted);
-      margin-bottom: 2rem;
-    }
-    .stats-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
-      gap: 1rem;
-      margin-bottom: 2rem;
-    }
-    .stat-card {
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: var(--radius);
-      padding: 1.5rem;
-      text-align: center;
-    }
-    .stat-card.accent {
-      border-color: var(--accent);
-      background: color-mix(in srgb, var(--accent) 8%, var(--surface));
-    }
-    .stat-value {
-      display: block;
-      font-size: 2rem;
-      font-weight: 700;
-      color: var(--accent);
-    }
-    .stat-label {
-      font-size: 0.9rem;
-      color: var(--text-muted);
-    }
-    .favoris-stats {
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: var(--radius);
-      padding: 1.5rem;
-    }
-    .favoris-stats h2 {
-      margin-top: 0;
-      font-size: 1.1rem;
-    }
-    .favoris-stats ul {
-      margin: 0;
-      padding-left: 1.25rem;
-      line-height: 1.8;
-    }
   `,
 })
 export class Dashboard implements OnInit {

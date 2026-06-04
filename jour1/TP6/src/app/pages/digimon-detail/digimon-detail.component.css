@@ -174,10 +174,6 @@
   color: var(--cyan);
 }
 
-.detail-evo-title__icon {
-  opacity: 0.6;
-}
-
 .detail-evo-list {
   list-style: none;
   margin: 0;

@@ -6,41 +6,22 @@ import { FormsModule } from '@angular/forms';
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [FormsModule],
   template: `
-    <div class="search-bar">
-      <label for="search-input">Rechercher par nom</label>
-      <input
-        id="search-input"
-        type="search"
-        placeholder="Ex : Rick, Morty…"
-        [(ngModel)]="term"
-        (ngModelChange)="onSearch($event)"
-      />
+    <div class="flex min-w-[200px] flex-1 flex-col gap-2">
+      <label for="search-input" class="label-field">Rechercher par nom</label>
+      <div class="relative">
+        <span class="pointer-events-none absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-500"
+          >🔍</span
+        >
+        <input
+          id="search-input"
+          type="search"
+          placeholder="Ex : Rick, Morty…"
+          class="input-field pl-10"
+          [(ngModel)]="term"
+          (ngModelChange)="onSearch($event)"
+        />
+      </div>
     </div>
-  `,
-  styles: `
-    .search-bar {
-      display: flex;
-      flex-direction: column;
-      gap: 0.35rem;
-      flex: 1;
-      min-width: 200px;
-    }
-    label {
-      font-size: 0.85rem;
-      color: var(--text-muted);
-    }
-    input {
-      padding: 0.6rem 0.85rem;
-      border: 1px solid var(--border);
-      border-radius: var(--radius);
-      background: var(--surface);
-      color: var(--text);
-      font-size: 1rem;
-    }
-    input:focus {
-      outline: 2px solid var(--accent);
-      outline-offset: 1px;
-    }
   `,
 })
 export class SearchBarComponent {

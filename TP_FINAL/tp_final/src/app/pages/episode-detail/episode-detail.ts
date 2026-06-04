@@ -28,41 +28,32 @@ import { FavorisService } from '../../services/favoris.service';
         <app-error-message [message]="error()!" (retry)="load()" />
       } @else {
         @if (episode(); as ep) {
-          <h1>{{ ep.name }}</h1>
-          <p class="meta">{{ ep.episode }} · {{ ep.air_date }}</p>
+          <div class="mb-8">
+            <span class="badge-pill mb-3">{{ ep.episode }}</span>
+            <h1 class="page-title">{{ ep.name }}</h1>
+            <p class="mt-2 text-slate-400">{{ ep.air_date }}</p>
+          </div>
 
-          <h2>Personnages ({{ characters().length }})</h2>
+          <h2 class="mb-5 font-display text-xl font-bold text-white">
+            Personnages
+            <span class="text-portal-bright">({{ characters().length }})</span>
+          </h2>
           @if (charactersLoading()) {
             <app-loader />
           } @else if (characters().length === 0) {
-            <p class="empty">Aucun personnage listé.</p>
+            <p class="text-slate-500">Aucun personnage listé.</p>
           } @else {
-            <div class="grid">
+            <div
+              class="grid grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5"
+            >
               @for (c of characters(); track c.id) {
-                <app-character-card
-                  [character]="c"
-                  (toggleFavori)="onToggleFavori($event)"
-                />
+                <app-character-card [character]="c" (toggleFavori)="onToggleFavori($event)" />
               }
             </div>
           }
         }
       }
     </section>
-  `,
-  styles: `
-    .meta {
-      color: var(--text-muted);
-      margin-bottom: 2rem;
-    }
-    .grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-      gap: 1.25rem;
-    }
-    .empty {
-      color: var(--text-muted);
-    }
   `,
 })
 export class EpisodeDetail implements OnInit {

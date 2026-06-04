@@ -19,7 +19,7 @@ import {
 } from 'rxjs';
 import { Character } from '../../models/character.model';
 import { ApiResponse } from '../../models/api-response.model';
-import { CharacterService } from '../../services/character.service';
+import { CharacterGraphqlService } from '../../services/character-graphql.service';
 import { FavorisService } from '../../services/favoris.service';
 import { CharacterCardComponent } from '../../components/character-card/character-card';
 import { SearchBarComponent } from '../../components/search-bar/search-bar';
@@ -40,13 +40,25 @@ import { ErrorMessageComponent } from '../../components/error-message/error-mess
   ],
   template: `
     <section class="page">
-      <h1>Personnages</h1>
+      <div class="mb-6 flex flex-wrap items-end justify-between gap-4">
+        <div>
+          <h1 class="page-title">Personnages</h1>
+          <span class="badge-pill mt-2">GraphQL · bonus</span>
+        </div>
+      </div>
 
-      <div class="filters">
+      <div
+        class="glass-panel mb-8 flex flex-wrap items-end gap-4 p-4 sm:gap-6 sm:p-5"
+      >
         <app-search-bar (searchChange)="onSearch($event)" />
-        <div class="status-filter">
-          <label for="status">Statut</label>
-          <select id="status" [(ngModel)]="statusFilter" (ngModelChange)="onStatusChange()">
+        <div class="flex flex-col gap-2">
+          <label for="status" class="label-field">Statut</label>
+          <select
+            id="status"
+            class="input-field min-w-[10rem] cursor-pointer"
+            [(ngModel)]="statusFilter"
+            (ngModelChange)="onStatusChange()"
+          >
             <option value="">Tous</option>
             <option value="alive">Vivant</option>
             <option value="dead">Mort</option>
@@ -61,14 +73,15 @@ import { ErrorMessageComponent } from '../../components/error-message/error-mess
         <app-error-message [message]="error()!" (retry)="reload()" />
       } @else {
         @if (characters().length === 0) {
-          <p class="empty">Aucun personnage trouvé.</p>
+          <p class="rounded-2xl border border-dashed border-glass-border py-16 text-center text-slate-500">
+            Aucun personnage trouvé dans cette dimension.
+          </p>
         } @else {
-          <div class="grid">
+          <div
+            class="grid grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5"
+          >
             @for (c of characters(); track c.id) {
-              <app-character-card
-                [character]="c"
-                (toggleFavori)="onToggleFavori($event)"
-              />
+              <app-character-card [character]="c" (toggleFavori)="onToggleFavori($event)" />
             }
           </div>
           <app-paginator
@@ -81,45 +94,9 @@ import { ErrorMessageComponent } from '../../components/error-message/error-mess
       }
     </section>
   `,
-  styles: `
-    .filters {
-      display: flex;
-      gap: 1rem;
-      flex-wrap: wrap;
-      margin-bottom: 1.5rem;
-      align-items: flex-end;
-    }
-    .status-filter {
-      display: flex;
-      flex-direction: column;
-      gap: 0.35rem;
-    }
-    .status-filter label {
-      font-size: 0.85rem;
-      color: var(--text-muted);
-    }
-    select {
-      padding: 0.6rem 0.85rem;
-      border: 1px solid var(--border);
-      border-radius: var(--radius);
-      background: var(--surface);
-      color: var(--text);
-      min-width: 140px;
-    }
-    .grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-      gap: 1.25rem;
-    }
-    .empty {
-      text-align: center;
-      color: var(--text-muted);
-      padding: 2rem;
-    }
-  `,
 })
 export class CharactersList implements OnInit {
-  private readonly characterService = inject(CharacterService);
+  private readonly characterService = inject(CharacterGraphqlService);
   private readonly favorisService = inject(FavorisService);
   private readonly destroyRef = inject(DestroyRef);
 

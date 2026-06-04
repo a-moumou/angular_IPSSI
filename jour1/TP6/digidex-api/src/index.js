@@ -9,4 +9,4 @@ const { url } = await startStandaloneServer(server, {
   listen: { port: 4000 },
 });
 
-console.log(`🚀 Serveur GraphQL prêt sur ${url}`);
+console.log(`Serveur GraphQL prêt sur ${url}`);

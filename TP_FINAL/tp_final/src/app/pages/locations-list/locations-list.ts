@@ -11,25 +11,29 @@ import { Location } from '../../models/location.model';
 import { PaginatorComponent } from '../../components/paginator/paginator';
 import { LoaderComponent } from '../../components/loader/loader';
 import { ErrorMessageComponent } from '../../components/error-message/error-message';
+
 @Component({
   selector: 'app-locations-list',
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [RouterLink, PaginatorComponent, LoaderComponent, ErrorMessageComponent],
   template: `
     <section class="page">
-      <h1>Lieux</h1>
+      <h1 class="page-title">Lieux</h1>
+      <p class="page-subtitle">Explorez les dimensions et planètes</p>
 
       @if (loading()) {
         <app-loader />
       } @else if (error()) {
         <app-error-message [message]="error()!" (retry)="load()" />
       } @else {
-        <div class="list">
+        <div class="flex flex-col gap-3">
           @for (loc of locations(); track loc.id) {
-            <a class="list-item" [routerLink]="['/locations', loc.id]">
-              <h3>{{ loc.name }}</h3>
-              <p>{{ loc.type }} · {{ loc.dimension }}</p>
-              <p class="muted">{{ loc.residents.length }} résident(s)</p>
+            <a [routerLink]="['/locations', loc.id]" class="list-row no-underline">
+              <div class="flex flex-wrap items-start justify-between gap-2">
+                <h3 class="font-display text-lg font-bold text-white">{{ loc.name }}</h3>
+                <span class="badge-pill text-[0.65rem]">{{ loc.residents.length }} résidents</span>
+              </div>
+              <p class="mt-1 text-sm text-slate-400">{{ loc.type }} · {{ loc.dimension }}</p>
             </a>
           }
         </div>
@@ -41,37 +45,6 @@ import { ErrorMessageComponent } from '../../components/error-message/error-mess
         />
       }
     </section>
-  `,
-  styles: `
-    .list {
-      display: flex;
-      flex-direction: column;
-      gap: 0.75rem;
-    }
-    .list-item {
-      display: block;
-      padding: 1rem 1.25rem;
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: var(--radius);
-      text-decoration: none;
-      color: var(--text);
-      transition: border-color 0.2s;
-    }
-    .list-item:hover {
-      border-color: var(--accent);
-    }
-    .list-item h3 {
-      margin: 0 0 0.25rem;
-    }
-    .list-item p {
-      margin: 0;
-      font-size: 0.9rem;
-      color: var(--text-muted);
-    }
-    .muted {
-      font-size: 0.8rem !important;
-    }
   `,
 })
 export class LocationsList implements OnInit {

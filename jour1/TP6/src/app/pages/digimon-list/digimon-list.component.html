@@ -3,7 +3,7 @@
     <p class="dex-hero__eyebrow">Encyclopédie numérique</p>
     <h1 class="dex-hero__title">Explore le monde Digimon</h1>
     <p class="dex-hero__sub">
-      {{ page()?.totalElements ?? '…' }} créatures indexées · données via GraphQL
+      {{ page()?.totalElements ?? '...' }} créatures indexées - données via GraphQL
     </p>
   </div>
   <div class="dex-hero__orb" aria-hidden="true"></div>
@@ -11,13 +11,13 @@
 
 <form class="dex-search" (submit)="$event.preventDefault(); rechercher()">
   <div class="dex-search__field">
-    <span class="dex-search__icon" aria-hidden="true">⌕</span>
+    <span class="dex-search__icon" aria-hidden="true"></span>
     <input
       class="dex-search__input"
       [ngModel]="recherche()"
       (ngModelChange)="recherche.set($event)"
       name="q"
-      placeholder="Agumon, Greymon, Angemon…"
+      placeholder="Agumon, Greymon, Angemon..."
       autocomplete="off"
     />
   </div>
@@ -35,7 +35,7 @@
   </div>
 } @else if (error()) {
   <div class="dex-alert">
-    <span class="dex-alert__icon">⚠</span>
+    <span class="dex-alert__icon">!</span>
     <div>
       <strong>Connexion impossible</strong>
       <p>{{ error() }}</p>
@@ -49,11 +49,10 @@
         <button
           type="button"
           class="dex-card__fav"
+          [class.dex-card__fav--on]="favoris.estFavori(d.id)"
           (click)="favoris.toggle(d); $event.stopPropagation()"
           [attr.aria-label]="favoris.estFavori(d.id) ? 'Retirer des favoris' : 'Ajouter aux favoris'"
-        >
-          {{ favoris.estFavori(d.id) ? '★' : '☆' }}
-        </button>
+        ></button>
         <a [routerLink]="['/digimon', d.id]" class="dex-card__link">
           <div class="dex-card__img-wrap">
             <img [src]="d.image" [alt]="d.name" loading="lazy" />
@@ -76,7 +75,7 @@
       (click)="pagePrecedente()"
       [disabled]="pageCourante() === 0"
     >
-      ← Précédent
+      Précédent
     </button>
     <div class="dex-pagination__info">
       <span class="dex-pagination__current">{{ p.currentPage + 1 }}</span>
@@ -89,7 +88,7 @@
       (click)="pageSuivante()"
       [disabled]="pageCourante() + 1 >= p.totalPages"
     >
-      Suivant →
+      Suivant
     </button>
   </nav>
 }

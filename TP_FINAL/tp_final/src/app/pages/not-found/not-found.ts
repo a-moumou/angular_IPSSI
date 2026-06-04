@@ -6,26 +6,16 @@ import { RouterLink } from '@angular/router';
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [RouterLink],
   template: `
-    <section class="page not-found">
-      <h1>404</h1>
-      <p>Page introuvable dans cette dimension.</p>
-      <a routerLink="/dashboard" class="btn btn-primary">Retour au tableau de bord</a>
+    <section class="page flex flex-col items-center py-20 text-center">
+      <p class="font-display text-[8rem] font-extrabold leading-none text-portal/30 sm:text-[10rem]">
+        404
+      </p>
+      <h1 class="page-title -mt-8 mb-4">Dimension introuvable</h1>
+      <p class="mb-8 max-w-md text-slate-400">
+        Cette page n'existe pas dans cet univers — ou Rick l'a encore effacée.
+      </p>
+      <a routerLink="/dashboard" class="btn-primary no-underline">Retour au tableau de bord</a>
     </section>
-  `,
-  styles: `
-    .not-found {
-      text-align: center;
-      padding: 4rem 1rem;
-    }
-    .not-found h1 {
-      font-size: 5rem;
-      margin: 0;
-      color: var(--accent);
-    }
-    .not-found p {
-      margin: 1rem 0 2rem;
-      color: var(--text-muted);
-    }
   `,
 })
 export class NotFound {}

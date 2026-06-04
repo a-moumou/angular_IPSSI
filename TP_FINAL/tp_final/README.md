@@ -28,6 +28,7 @@ npm run build   # compilation production
 - [x] Formulaire réactif contact avec validateurs
 - [x] 5 composants dumb + 2 pipes + `OnPush`
 - [x] `withComponentInputBinding()` + `input.required()` sur les pages détail
+- [x] **Bonus GraphQL** : liste des personnages via `apollo-angular` + requête `GetCharacters`
 
 ## Architecture
 
@@ -94,7 +95,7 @@ Ces pages ne sont chargées **qu'à la navigation** (`loadComponent`), ce qui al
 
 ### 10. *(Bonus GraphQL)* GraphQL vs REST
 
-En REST, la liste des personnages ne renvoie que des URLs d'épisodes ; il faut N+1 appels pour les détails. En GraphQL, une requête avec `location { id name }` et `episode { id name }` récupère tout en **un seul aller-retour**, évitant l'under-fetching.
+En REST, `GET /api/character` renvoie des URLs pour `episode` et `location` : pour afficher noms de lieux et épisodes sur une carte enrichie, il faudrait des appels supplémentaires (under-fetching). Notre requête `GetCharacters` dans `characters.query.ts` demande en une fois `location { id name }` et `episode { id name }` — un seul aller-retour réseau pour la liste paginée et filtrée.
 
 ## Captures d'écran
 

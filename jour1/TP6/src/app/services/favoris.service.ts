@@ -7,7 +7,6 @@ export class FavorisService {
 
   favoris = this._favoris.asReadonly();
   nombre = computed(() => this._favoris().length);
-
   estFavori(id: number): boolean {
     return this._favoris().some(d => d.id === id);
   }

@@ -1,11 +1,9 @@
-<a routerLink="/" class="detail-back">
-  <span aria-hidden="true">←</span> Retour au DigiDex
-</a>
+<a routerLink="/" class="detail-back">Retour au DigiDex</a>
 
 @if (loading()) {
   <div class="detail-loading">
     <div class="detail-loading__ring"></div>
-    <p>Analyse des données en cours…</p>
+    <p>Analyse des données en cours...</p>
   </div>
 } @else if (digimon(); as d) {
   <article class="detail-hero">
@@ -20,7 +18,7 @@
       <h1 class="detail-hero__name">{{ d.name }}</h1>
 
       @if (d.releaseDate) {
-        <p class="detail-hero__date">Première apparition · {{ d.releaseDate }}</p>
+        <p class="detail-hero__date">Première apparition - {{ d.releaseDate }}</p>
       }
 
       <div class="detail-tags">
@@ -43,10 +41,7 @@
 
   <section class="detail-evolutions">
     <div class="detail-evo-col">
-      <h2 class="detail-evo-title">
-        <span class="detail-evo-title__icon">◀</span>
-        Évolue depuis
-      </h2>
+      <h2 class="detail-evo-title">Évolue depuis</h2>
       <ul class="detail-evo-list">
         @for (e of d.priorEvolutions; track e.id) {
           <li>
@@ -67,10 +62,7 @@
     </div>
 
     <div class="detail-evo-col">
-      <h2 class="detail-evo-title">
-        Évolue vers
-        <span class="detail-evo-title__icon">▶</span>
-      </h2>
+      <h2 class="detail-evo-title">Évolue vers</h2>
       <ul class="detail-evo-list">
         @for (e of d.nextEvolutions; track e.id) {
           <li>

@@ -19,11 +19,7 @@ import { FavorisService } from '../../services/favoris.service';
 @Component({
   selector: 'app-location-detail',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [
-    LoaderComponent,
-    ErrorMessageComponent,
-    CharacterCardComponent,
-  ],
+  imports: [LoaderComponent, ErrorMessageComponent, CharacterCardComponent],
   template: `
     <section class="page">
       @if (loading()) {
@@ -32,41 +28,34 @@ import { FavorisService } from '../../services/favoris.service';
         <app-error-message [message]="error()!" (retry)="load()" />
       } @else {
         @if (location(); as loc) {
-          <h1>{{ loc.name }}</h1>
-          <p class="meta">{{ loc.type }} · Dimension : {{ loc.dimension }}</p>
+          <div class="mb-8">
+            <h1 class="page-title">{{ loc.name }}</h1>
+            <p class="mt-2 text-lg text-slate-400">
+              {{ loc.type }} · Dimension :
+              <span class="font-medium text-cosmic-light">{{ loc.dimension }}</span>
+            </p>
+          </div>
 
-          <h2>Résidents ({{ residents().length }})</h2>
+          <h2 class="mb-5 font-display text-xl font-bold text-white">
+            Résidents
+            <span class="text-portal-bright">({{ residents().length }})</span>
+          </h2>
           @if (residentsLoading()) {
             <app-loader />
           } @else if (residents().length === 0) {
-            <p class="empty">Aucun résident connu.</p>
+            <p class="text-slate-500">Aucun résident connu.</p>
           } @else {
-            <div class="grid">
+            <div
+              class="grid grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5"
+            >
               @for (c of residents(); track c.id) {
-                <app-character-card
-                  [character]="c"
-                  (toggleFavori)="onToggleFavori($event)"
-                />
+                <app-character-card [character]="c" (toggleFavori)="onToggleFavori($event)" />
               }
             </div>
           }
         }
       }
     </section>
-  `,
-  styles: `
-    .meta {
-      color: var(--text-muted);
-      margin-bottom: 2rem;
-    }
-    .grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-      gap: 1.25rem;
-    }
-    .empty {
-      color: var(--text-muted);
-    }
   `,
 })
 export class LocationDetail implements OnInit {
